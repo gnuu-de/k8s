@@ -17,3 +17,7 @@ spec:
         backend:
           serviceName: nginx
           servicePort: 80
+      - path: /cgi-bin/user.cgi
+        backend:
+          serviceName: app
+          servicePort: 80
