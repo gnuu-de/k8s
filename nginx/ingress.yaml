@@ -21,3 +21,11 @@ spec:
         backend:
           serviceName: app
           servicePort: 80
+      - path: /cgi-bin/login.cgi
+        backend:
+          serviceName: app
+          servicePort: 80
+      - path: /cgi-bin/logout.cgi
+        backend:
+          serviceName: app
+          servicePort: 80
