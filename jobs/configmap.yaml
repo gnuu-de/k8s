@@ -4,18 +4,27 @@ kind: ConfigMap
 metadata:
   name: gnuu-uucp
 data:
-  sys:
-  passwd:
+  sys: |
+    init
+  passwd: |
+    init
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: gnuu-news
 data:
-  newsfeeds:
-  send-uucp.cf.300:
-  send-uucp.cf.1800:
-  send-uucp.cf.3600:
-  send-uucp.cf.21600:
-  send-uucp.cf.43200:
-  send-uucp.cf.86400:
+  newsfeeds: |
+    init
+  send-uucp.cf.300: |
+    init
+  send-uucp.cf.1800: |
+    init
+  send-uucp.cf.3600: |
+    init
+  send-uucp.cf.21600: |
+    init
+  send-uucp.cf.43200: |
+    init
+  send-uucp.cf.86400: |
+    init
