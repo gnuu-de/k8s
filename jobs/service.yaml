@@ -1,0 +1,12 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: job
+spec:
+  selector:
+    app: job
+  ports:
+    - port: 80
+      targetPort: 5000
+

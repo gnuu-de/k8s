@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: job
+  name: job
+  namespace: gnuu
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: job
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: job
+      annotations:
+        checksum/secrets: gnuu-secrets | sha256sum
+    spec:
+      containers:
+      - image: gnuu/python
+        imagePullPolicy: Always
+        name: job
+        ports:
+          - containerPort: 5000
+        command: ["sh","-c"]
+        args: ["git clone https://github.com/gnuu-de/apps && cd apps/$APP && gunicorn --bind 0.0.0.0:5000 --access-logfile /dev/stdout wsgi:app"]
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: APP
+          value: "job"
+        - name: mysql_host
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_host
+        - name: MYSQL_PORT
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_port
+        - name: mysql_db
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_db
+        - name: mysql_user
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_user
+        - name: mysql_password
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_password
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /home/appuser/uucp
+          name: gnuu-uucp
+        - mountPath: /home/appuser/news
+          name: gnuu-news
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: gnuu-uucp
+          configMap:
+            name: gnuu-uucp
+        - name: gnuu-news
+          configMap:
+            name: gnuu-news
+
