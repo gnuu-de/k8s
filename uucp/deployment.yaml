@@ -11,7 +11,7 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: job
+      app: uucp
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -20,18 +20,18 @@ spec:
   template:
     metadata:
       labels:
-        app: job
+        app: uucp
       annotations:
-        checksum/secrets: gnuu-secrets | sha256sum
+        checksum/configmaps: gnuu-uucp | sha256sum
     spec:
       containers:
       - image: gnuu/uucp
         imagePullPolicy: Always
-        name: job
+        name: uucp
         ports:
           - containerPort: 10540
-        command: ["sh","-c"]
-        args: ["git clone https://github.com/gnuu-de/apps && cd apps/$APP && gunicorn --bind 0.0.0.0:5000 --access-logfile /dev/stdout wsgi:app"]
+            #        command: ["sh","-c"]
+            #args: ["git clone https://github.com/gnuu-de/apps && cd apps/$APP && gunicorn --bind 0.0.0.0:5000 --access-logfile /dev/stdout wsgi:app"]
         env:
         - name: PYTHONUNBUFFERED
           value: "1"
@@ -41,6 +41,8 @@ spec:
         volumeMounts:
         - mountPath: /etc/uucp
           name: gnuu-uucp
+        - mountPath: /data
+          name: data
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -50,4 +52,7 @@ spec:
         - name: gnuu-uucp
           configMap:
             name: gnuu-uucp
+        - name: data
+          persistentVolumeClaim:
+            claimName: data
 
