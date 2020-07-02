@@ -1,0 +1,12 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: uucp
+spec:
+  selector:
+    app: uucp
+  ports:
+    - port: 540
+      targetPort: 10540
+
