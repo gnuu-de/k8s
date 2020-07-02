@@ -9,11 +9,9 @@ metadata:
 rules:
   - apiGroups: [""]
     resources: ["secrets"]
-    resourceNames: ["gnuu-uucp", "gnuu-news"]
     verbs: ["get", "update", "delete", "create", "patch"]
   - apiGroups: [""]
     resources: ["configmaps"]
-    resourceNames: ["gnuu-uucp", "gnuu-news"]
     verbs: ["get", "update", "create", "patch"]
 ---
 
