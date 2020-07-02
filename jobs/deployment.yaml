@@ -65,21 +65,10 @@ spec:
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
-        volumeMounts:
-        - mountPath: /home/appuser/uucp
-          name: gnuu-uucp
-        - mountPath: /home/appuser/news
-          name: gnuu-news
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-      volumes:
-        - name: gnuu-uucp
-          configMap:
-            name: gnuu-uucp
-        - name: gnuu-news
-          configMap:
-            name: gnuu-news
+      serviceAccountName: gnuu-job
 

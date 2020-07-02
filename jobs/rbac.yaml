@@ -1,0 +1,34 @@
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  labels:
+    app: job
+  name: job
+  namespace: gnuu
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    resourceNames: ["gnuu-uucp", "gnuu-news"]
+    verbs: ["get", "update", "delete", "create", "patch"]
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    resourceNames: ["gnuu-uucp", "gnuu-news"]
+    verbs: ["get", "update", "create", "patch"]
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    app: job
+  name: job
+  namespace: gnuu
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: job
+subjects:
+  - kind: ServiceAccount
+    name: gnuu-job
+    namespace: gnuu
