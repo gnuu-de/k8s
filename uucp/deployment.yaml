@@ -29,17 +29,12 @@ spec:
         imagePullPolicy: Always
         name: uucp
         ports:
-          - containerPort: 10540
-            #        command: ["sh","-c"]
-            #args: ["git clone https://github.com/gnuu-de/apps && cd apps/$APP && gunicorn --bind 0.0.0.0:5000 --access-logfile /dev/stdout wsgi:app"]
-        env:
-        - name: PYTHONUNBUFFERED
-          value: "1"
+          - containerPort: 540
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
-        - mountPath: /etc/uucp
+        - mountPath: /work-dir/etc/uucp
           name: gnuu-uucp
         - mountPath: /data
           name: data
@@ -49,10 +44,11 @@ spec:
       securityContext: {}
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: gnuu-uucp
-          configMap:
-            name: gnuu-uucp
-        - name: data
-          persistentVolumeClaim:
-            claimName: data
-
+      - name: gnuu-uucp
+        configMap:
+          name: gnuu-uucp
+      - name: data
+        persistentVolumeClaim:
+          claimName: data
+      - name: workdir
+        emptyDir: {}

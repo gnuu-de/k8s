@@ -8,5 +8,5 @@ spec:
     app: uucp
   ports:
     - port: 540
-      targetPort: 10540
+      targetPort: 540
 
