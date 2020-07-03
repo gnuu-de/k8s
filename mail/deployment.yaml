@@ -21,8 +21,6 @@ spec:
     metadata:
       labels:
         app: mail
-      annotations:
-        checksum/secrets: gnuu-secrets | sha256sum
     spec:
       containers:
       - image: gnuu/postfix
@@ -30,11 +28,8 @@ spec:
         name: mail
         ports:
           - containerPort: 25
-            #        command: ["sh","-c"]
-            #args: ["git clone https://github.com/gnuu-de/apps && cd apps/$APP && gunicorn --bind 0.0.0.0:5000 --access-logfile /dev/stdout wsgi:app"]
-        env:
-        - name: PYTHONUNBUFFERED
-          value: "1"
+#        command: ["sh","-c"]
+#        args: ["tail -f /dev/null"]
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
@@ -43,23 +38,75 @@ spec:
           mountPath: /data
         - name: workdir
           mountPath: /work-dir
+        env:
+        - name: mysql_host
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_host
+        - name: mysql_port
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_port
+        - name: mysql_db
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_db
+        - name: mysql_user
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_user
+        - name: mysql_password
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_password
       initContainers:
       - name: install
         image: gnuu/busybox
-        command:
-        - git
-        - clone
-        - "https://github.com/gnuu-de/serverconfig.git"
-        - "/work-dir"
+        command: ['sh', '-c', "git clone https://github.com/gnuu-de/serverconfig.git /work-dir && \
+        envsubst < /work-dir/etc/postfix/relay-mysql.cfg.tpl > /work-dir/etc/postfix/relay-mysql.cfg && \
+        envsubst < /work-dir/etc/postfix/transport-mysql.cfg.tpl > /work-dir/etc/postfix/transport-mysql.cfg"]
         volumeMounts:
         - name: workdir
           mountPath: "/work-dir"
+        env:
+        - name: mysql_host
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_host
+        - name: mysql_port
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_port
+        - name: mysql_db
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_db
+        - name: mysql_user
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_user
+        - name: mysql_password
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_password
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: data
+      - name: workdir
+        emptyDir: {}
+      - name: data
+        persistentVolumeClaim:
+          claimName: data

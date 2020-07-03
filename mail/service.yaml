@@ -2,11 +2,13 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: uucp
+  name: mail
 spec:
   selector:
-    app: uucp
+    app: mail
   ports:
-    - port: 540
-      targetPort: 540
+    - port: 25
+      targetPort: 25
+  externalIPs:
+    - 10.9.3.171
 
