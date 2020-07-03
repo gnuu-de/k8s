@@ -5,6 +5,7 @@ metadata:
   namespace: gnuu
   name: gnuu
   annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt"
     kubernetes.io/ingress.class: "traefik"
     traefik.frontend.passHostHeader: "true"
     traefik.backend.loadbalancer.sticky: "true"
@@ -21,3 +22,7 @@ spec:
         backend:
           serviceName: app
           servicePort: 80
+  tls:
+  - hosts:
+    - k8s.gnuu.de
+    secretName: k8s-gnuu-de-cert
