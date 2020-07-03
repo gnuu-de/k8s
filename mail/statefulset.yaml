@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: mail
+  name: mail
+  namespace: gnuu
+spec:
+  serviceName: mail
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: mail
+  template:
+    metadata:
+      labels:
+        app: mail
+    spec:
+      containers:
+      - image: gnuu/postfix
+        imagePullPolicy: Always
+        #command: ['sh', '-c']
+        #args: ["tail -f /dev/null"]
+        name: mail
+        ports:
+          - containerPort: 25
+            hostPort: 25
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: workdir
+          mountPath: /work-dir
+      initContainers:
+      - name: install
+        image: gnuu/busybox
+        command: ['bash', '-x', "/sidecar/run.sh"]
+        volumeMounts:
+        - name: workdir
+          mountPath: "/work-dir"
+        - name: mail-sidecar
+          mountPath: /sidecar
+        env:
+        # postfix-mysql is too stupid, set host in sidecar via host command to service
+        # - name: mysql_host
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: gnuu-secrets
+        #       key: mysql_host
+        - name: mysql_port
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_port
+        - name: mysql_db
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_db
+        - name: mysql_user
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_user
+        - name: mysql_password
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_password
+      dnsPolicy: ClusterFirst
+      hostNetwork: true
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: workdir
+        emptyDir: {}
+      - name: data
+        persistentVolumeClaim:
+          claimName: data
+      - name: mail-sidecar
+        configMap:
+          name: mail-sidecar
+
