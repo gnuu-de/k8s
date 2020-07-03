@@ -28,8 +28,6 @@ spec:
         name: mail
         ports:
           - containerPort: 25
-#        command: ["sh","-c"]
-#        args: ["tail -f /dev/null"]
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
@@ -38,47 +36,22 @@ spec:
           mountPath: /data
         - name: workdir
           mountPath: /work-dir
-        env:
-        - name: mysql_host
-          valueFrom:
-            secretKeyRef:
-              name: gnuu-secrets
-              key: mysql_host
-        - name: mysql_port
-          valueFrom:
-            secretKeyRef:
-              name: gnuu-secrets
-              key: mysql_port
-        - name: mysql_db
-          valueFrom:
-            secretKeyRef:
-              name: gnuu-secrets
-              key: mysql_db
-        - name: mysql_user
-          valueFrom:
-            secretKeyRef:
-              name: gnuu-secrets
-              key: mysql_user
-        - name: mysql_password
-          valueFrom:
-            secretKeyRef:
-              name: gnuu-secrets
-              key: mysql_password
       initContainers:
       - name: install
         image: gnuu/busybox
-        command: ['sh', '-c', "git clone https://github.com/gnuu-de/serverconfig.git /work-dir && \
-        envsubst < /work-dir/etc/postfix/relay-mysql.cfg.tpl > /work-dir/etc/postfix/relay-mysql.cfg && \
-        envsubst < /work-dir/etc/postfix/transport-mysql.cfg.tpl > /work-dir/etc/postfix/transport-mysql.cfg"]
+        command: ['bash', '-x', "/sidecar/run.sh"]
         volumeMounts:
         - name: workdir
           mountPath: "/work-dir"
+        - name: mail-sidecar
+          mountPath: /sidecar
         env:
-        - name: mysql_host
-          valueFrom:
-            secretKeyRef:
-              name: gnuu-secrets
-              key: mysql_host
+        # postfix-mysql is too stupid, set host in sidecar via host command to service
+        # - name: mysql_host
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: gnuu-secrets
+        #       key: mysql_host
         - name: mysql_port
           valueFrom:
             secretKeyRef:
@@ -100,6 +73,7 @@ spec:
               name: gnuu-secrets
               key: mysql_password
       dnsPolicy: ClusterFirst
+      # hostNetwork: true
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
@@ -110,3 +84,7 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: data
+      - name: mail-sidecar
+        configMap:
+          name: mail-sidecar
+
