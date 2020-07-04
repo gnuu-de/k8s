@@ -5,7 +5,7 @@ metadata:
     job-name: uucp-build
   name: uucp-build
 spec:
-  backoffLimit: 6
+  backoffLimit: 1
   completions: 1
   parallelism: 1
   template:
@@ -19,8 +19,10 @@ spec:
       - image: gnuu/uucp-build
         imagePullPolicy: IfNotPresent
         name: uucp-build
+        command: ["sh","-c"]
+        args: ["dpkg-buildpackage -b && cp ../*.deb /repo/html/repo/ && ls -l /repo/html/repo/"]
         volumeMounts:
-        - mountPath: /data/src/uucp
+        - mountPath: /repo
           name: repo
       volumes:
       - name: repo
