@@ -14,7 +14,9 @@ pvc.yaml Creates a volume storage, mostly mount on /data
 
 nginx/ Static web https://k8s.gnuu.de
 
-repo/ GNUU Package repo https://k8s.gnuu.de/repo/
+repo/ GNUU Package repo https://k8s.gnuu.de/repo/ 
+
+      currently uucp package is build with gnuu/uucp-build image and job.yaml to build & store the package in the repo
 
 dashboard/ Kubernetes-Dashboard https://dashboard.gnuu.de
 
