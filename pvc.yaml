@@ -11,4 +11,17 @@ spec:
       storage: 8Gi
   storageClassName: openebs-standalone
   volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: repo
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: openebs-standalone
+  volumeMode: Filesystem
 

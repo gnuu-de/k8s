@@ -32,27 +32,13 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
-        - name: workdir
-          mountPath: /usr/share/nginx/html
-      initContainers:
-      - name: install
-        image: gnuu/busybox
-        command:
-        - cp
-        - "/data/src/*"
-        - "/work-dir/"
-        volumeMounts:
-        - name: workdir
-          mountPath: "/work-dir"
-        - name: data
-          mountPath: "/data"
+        - name: repo
+          mountPath: /usr/share/nginx
       dnsPolicy: Default
       volumes:
-      - name: data
+      - name: repo
         persistentVolumeClaim:
-          claimName: data
-      - name: workdir
-        emptyDir: {}
+          claimName: repo
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler

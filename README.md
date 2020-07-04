@@ -14,6 +14,8 @@ pvc.yaml Creates a volume storage, mostly mount on /data
 
 nginx/ Static web https://k8s.gnuu.de
 
+repo/ GNUU Package repo https://k8s.gnuu.de/repo/
+
 dashboard/ Kubernetes-Dashboard https://dashboard.gnuu.de
 
 uucp/ UUCP Service Port 540
