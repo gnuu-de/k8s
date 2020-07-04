@@ -1,4 +1,5 @@
----
+# DONT DEPLOY THE SERVICE IF YOU USE HOSTNETWORK AND HOSTPORT IN DEPLOYMENT
+#---
 kind: Service
 apiVersion: v1
 metadata:

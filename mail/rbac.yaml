@@ -1,0 +1,29 @@
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  labels:
+    app: mail
+  name: mail
+  namespace: gnuu
+rules:
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["get"]
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    app: mail
+  name: mail
+  namespace: gnuu
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: mail
+subjects:
+  - kind: ServiceAccount
+    name: gnuu-mail
+    namespace: gnuu
