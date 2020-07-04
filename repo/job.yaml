@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    job-name: uucp-build
+  name: uucp-build
+spec:
+  backoffLimit: 6
+  completions: 1
+  parallelism: 1
+  template:
+    spec:
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsGroup: 1000
+      restartPolicy: Never
+      containers:
+      - image: gnuu/uucp-build
+        imagePullPolicy: IfNotPresent
+        name: uucp-build
+        volumeMounts:
+        - mountPath: /data/src/uucp
+          name: repo
+      volumes:
+      - name: repo
+        persistentVolumeClaim:
+          claimName: repo
+
