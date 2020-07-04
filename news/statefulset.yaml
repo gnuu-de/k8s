@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: news
+  name: news
+  namespace: gnuu
+spec:
+  serviceName: news
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: news
+  template:
+    metadata:
+      labels:
+        app: news
+    spec:
+      containers:
+      - image: gnuu/inn
+        imagePullPolicy: Always
+        command: ['sh', '-c']
+        args: ["tail -f /dev/null"]
+        name: news
+        ports:
+          - containerPort: 119
+            hostPort: 119
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: workdir
+          mountPath: "/work-dir"
+        - mountPath: /etc/news
+          name: all-news
+      initContainers:
+      - name: install
+        image: gnuu/busybox
+        command: ['bash', '-x', "/sidecar/run.sh"]
+        volumeMounts:
+        - name: workdir
+          mountPath: "/work-dir"
+        - name: news-sidecar
+          mountPath: /sidecar
+      dnsPolicy: ClusterFirst
+      hostNetwork: true
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: workdir
+        emptyDir: {}
+      - name: data
+        persistentVolumeClaim:
+          claimName: data
+      - name: news-sidecar
+        configMap:
+          name: news-sidecar
+      - name: gnuu-news
+        configMap:
+          name: gnuu-news
+      - name: all-news
+        projected:
+          sources:
+          - configMap:
+              name: gnuu-news
+          - configMap:
+              name: news-static
+              # im sidecar muss diese configmap erstellt werden, alles andere kann weg
+              # kubectl create configmap news-static --from-file=./news
+              # kubectl create configmap gnuu-uucp --from-file=./config  --from-file=./port --from-file=./passwd --from-file=./sys -o yaml --dry-run=client | kubectl apply -f
+              # + rbac + sa
