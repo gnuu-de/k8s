@@ -51,7 +51,6 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: data
-      volumes:
       - name: workdir
         emptyDir: {}
       dnsPolicy: ClusterFirst
