@@ -1,7 +1,52 @@
 apiVersion: v1
 data:
   run.sh: |
-    git clone https://github.com/gnuu-de/serverconfig.git /work-dir
+    if [ ! -d "/work-dir/etc/news" ]; then
+      git clone https://github.com/gnuu-de/serverconfig.git /work-dir
+      kubectl create configmap news-static --from-file=./work-dir/etc/news  -o yaml --dry-run=client | kubectl apply -f
+    fi
+    if [ ! -d "/data/spool/news" ]; then
+       mkdir -p /data/spool/news
+       chown 9:9 /data/spool/news
+    fi
+    if [ ! -d "/data/news/db" ]; then
+       mkdir -p /data/news/db
+       chown 9:9 /data/news/db
+    fi
+    if [ ! -d "/data/spool/news/archive" ]; then
+       mkdir -p /data/spool/news/archive
+       chown 9:9 /data/spool/news/archive
+    fi
+    if [ ! -d "/data/spool/news/articles" ]; then
+       mkdir -p /data/spool/news/articles
+       chown 9:9 /data/spool/news/articles
+    fi
+    if [ ! -d "/data/spool/news/incoming" ]; then
+       mkdir -p /data/spool/news/incoming
+       chown 9:9 /data/spool/news/incoming
+    fi
+    if [ ! -d "/data/spool/news/outgoing" ]; then
+       mkdir -p /data/spool/news/outgoing
+       chown 9:9 /data/spool/news/outgoing
+    fi
+    if [ ! -d "/data/spool/news/overview" ]; then
+       mkdir -p /data/spool/news/overview
+       chown 9:9 /data/spool/news/overview
+    fi
+    if [ ! -d "/data/spool/news/tmp" ]; then
+       mkdir -p /data/spool/news/tmp
+       chown 9:9 /data/spool/news/tmp
+    fi
+    if [ ! -d "/data/www/news" ]; then
+       mkdir -p /data/www/news
+       chown 9:9 /data/www/news
+    fi
+    if [ ! "/data/news/db/history" ]; then
+       apt update && apt -y install inn2
+       touch /data/news/db/history
+       /usr/lib/news/bin/makedbz -i -f /data/news/db/history
+       chown 9:9 /data/news/db/history*
+    fi
 kind: ConfigMap
 metadata:
   labels:

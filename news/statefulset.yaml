@@ -20,8 +20,8 @@ spec:
       containers:
       - image: gnuu/inn
         imagePullPolicy: Always
-        command: ['sh', '-c']
-        args: ["tail -f /dev/null"]
+        #command: ['sh', '-c']
+        #args: ["tail -f /dev/null"]
         name: news
         ports:
           - containerPort: 119
@@ -34,11 +34,12 @@ spec:
           mountPath: /data
         - name: workdir
           mountPath: "/work-dir"
-        - mountPath: /etc/news
-          name: all-news
+        - name: all-news
+          mountPath: /etc/news
       initContainers:
       - name: install
         image: gnuu/busybox
+        #command: ['bash', '-x', "ls -la /work-dir"]
         command: ['bash', '-x', "/sidecar/run.sh"]
         volumeMounts:
         - name: workdir
@@ -51,6 +52,7 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
+      serviceAccountName: gnuu-news
       volumes:
       - name: workdir
         emptyDir: {}
@@ -60,9 +62,6 @@ spec:
       - name: news-sidecar
         configMap:
           name: news-sidecar
-      - name: gnuu-news
-        configMap:
-          name: gnuu-news
       - name: all-news
         projected:
           sources:
@@ -70,7 +69,3 @@ spec:
               name: gnuu-news
           - configMap:
               name: news-static
-              # im sidecar muss diese configmap erstellt werden, alles andere kann weg
-              # kubectl create configmap news-static --from-file=./news
-              # kubectl create configmap gnuu-uucp --from-file=./config  --from-file=./port --from-file=./passwd --from-file=./sys -o yaml --dry-run=client | kubectl apply -f
-              # + rbac + sa

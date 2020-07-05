@@ -1,0 +1,32 @@
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  labels:
+    app: news
+  name: news
+  namespace: gnuu
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "update", "delete", "create", "patch"]
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "update", "create", "patch"]
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    app: news
+  name: news
+  namespace: gnuu
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: news
+subjects:
+  - kind: ServiceAccount
+    name: gnuu-news
+    namespace: gnuu
