@@ -3,7 +3,7 @@ data:
   run.sh: |
     if [ ! -d "/work-dir/etc/news" ]; then
       git clone https://github.com/gnuu-de/serverconfig.git /work-dir
-      kubectl create configmap news-static --from-file=./work-dir/etc/news  -o yaml --dry-run=client | kubectl apply -f
+      kubectl -n gnuu create configmap news-static --from-file=./work-dir/etc/news  -o yaml --dry-run=client | kubectl apply -f
     fi
     if [ ! -d "/data/spool/news" ]; then
        mkdir -p /data/spool/news
