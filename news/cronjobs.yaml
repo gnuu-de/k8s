@@ -1,0 +1,114 @@
+--
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: send-uucp-300
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: send-uucp-300
+            image: gnuu/inn
+            args:
+            - sh
+            - -c
+            - /usr/local/bin/news/send-uucp-gnuu.300
+          restartPolicy: OnFailure
+--
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: send-uucp-1800
+spec:
+  schedule: "*/30 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: send-uucp-1800
+            image: gnuu/inn
+            args:
+            - sh
+            - -c
+            - /usr/local/bin/news/send-uucp-gnuu.1800
+          restartPolicy: OnFailure
+--
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: send-uucp-3600
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: send-uucp-3600
+            image: gnuu/inn
+            args:
+            - sh
+            - -c
+            - /usr/local/bin/news/send-uucp-gnuu.3600
+          restartPolicy: OnFailure
+--
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: send-uucp-21600
+spec:
+  schedule: "0 */6 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: send-uucp-21600
+            image: gnuu/inn
+            args:
+            - sh
+            - -c
+            - /usr/local/bin/news/send-uucp-gnuu.21600
+          restartPolicy: OnFailure
+--
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: send-uucp-43200
+spec:
+  schedule: "0 */12 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: send-uucp-43200
+            image: gnuu/inn
+            args:
+            - sh
+            - -c
+            - /usr/local/bin/news/send-uucp-gnuu.43200
+          restartPolicy: OnFailure
+--
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: send-uucp-86400
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: send-uucp-86400
+            image: gnuu/inn
+            args:
+            - sh
+            - -c
+            - /usr/local/bin/news/send-uucp-gnuu.86400
+          restartPolicy: OnFailure
