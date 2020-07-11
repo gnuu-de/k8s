@@ -16,7 +16,48 @@ spec:
             - sh
             - -c
             - /usr/local/bin/news/send-uucp-gnuu.300
-          restartPolicy: OnFailure
+            volumeMounts:
+            - mountPath: /data
+              name: data
+            - mountPath: /work-dir
+              name: workdir
+            - mountPath: /etc/news
+              name: all-news
+          initContainers:
+          - command:
+            - bash
+            - -x
+            - /sidecar/run.sh
+            image: gnuu/busybox
+            imagePullPolicy: Always
+            name: install
+            resources: {}
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            volumeMounts:
+            - mountPath: /work-dir
+              name: workdir
+            - mountPath: /sidecar
+              name: news-sidecar
+          restartPolicy: OnFailure#
+          volumes:
+          - emptyDir: {}
+            name: workdir
+          - name: data
+            persistentVolumeClaim:
+              claimName: data
+          - configMap:
+              defaultMode: 420
+              name: news-sidecar
+            name: news-sidecar
+          - name: all-news
+            projected:
+              defaultMode: 420
+              sources:
+              - configMap:
+                  name: gnuu-news
+              - configMap:
+                  name: news-static
 --
 apiVersion: batch/v1beta1
 kind: CronJob
