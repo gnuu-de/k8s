@@ -20,6 +20,8 @@ spec:
       containers:
       - image: gnuu/inn
         imagePullPolicy: Always
+        command:
+        - /entrypoint.sh
         #command: ['sh', '-c']
         #args: ["tail -f /dev/null"]
         name: news
