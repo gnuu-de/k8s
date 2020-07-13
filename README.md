@@ -64,6 +64,7 @@ wg genpsk > preshared
 
 On K3S:
 
+deployment come from  https://raw.githubusercontent.com/squat/kilo/master/manifests/kilo-k3s.yaml
 
 ```
 kubectl apply -f wireguard/kilo-k3s.yaml
