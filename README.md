@@ -41,3 +41,100 @@ Set kubectl context
 kubectl config set-context --current --namespace=gnuu
 ```
 
+
+Cluster Access Through WireGuard:
+---------------------------------
+
+
+On the client:
+
+Ubuntu 18.04:
+
+```
+apt install linux-image-virtual
+apt install linux-headers-$(uname -r)
+apt install software-properties-common
+add-apt-repository ppa:wireguard/wireguard
+```
+
+Ubuntu 18.04/20.04:
+
+```
+apt install wireguard-dkms wireguard-tools
+```
+
+
+```
+wg genkey | tee privatekey | wg pubkey > publickey
+wg genpsk > preshared
+```
+
+On K3S:
+
+
+```
+kubectl apply -f wireguard/kilo-k3s.yaml
+```
+
+Grab the public key from the server
+
+```
+kubectl -n kube-system exec -it kilo-6m5xx -- wg show
+```
+
+On the client
+
+Create a file /etc/wireguard/wg0.conf
+
+```
+[Interface]
+Address = 10.4.0.3/16
+ListenPort = 51820
+Privatekey = cDfULS/uimDH3onp0oV/IymwltHD+6GhYbbdJZ+GXXA=
+
+[Peer]
+PublicKey = 3SbEAgiKws0YpCNc7G1SW1R3++EuZkIrNsB/FTCYPRY=
+AllowedIPs = 10.4.0.1/16,10.43.0.0/16
+Endpoint = k8s.gnuu.de:51820
+```
+
+* Privatekey - was generated before
+
+* PublicKey - was catched from server
+
+
+On K3S:
+
+adjust PublicKey with the catched Publickey from server
+
+```
+kubectl apply -f wireguard/peer.yaml
+```
+
+On the client:
+
+```
+wg-quick up wg0
+ping 10.4.0.1
+```
+
+
+Notes: 
+
+* presharedkeys seems unsupported
+
+* beware same host/netmasks on both sides
+
+* learn about [Roaming](https://www.wireguard.com/#built-in-roaming) (server-client-connection through NAT without endpoint)
+
+* initial connection in roaming must start from client
+
+
+Kubernetes connection from client:
+
+* copy /etc/rancher/k3s/k3s.yaml from K3S as KUBECONFIG
+
+* replace 127.0.0.1 with the K3S Wireguard Endpoint, e.g. 10.4.0.1
+
+* test connection, `kubectl get ns`
+

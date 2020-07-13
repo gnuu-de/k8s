@@ -1,0 +1,11 @@
+apiVersion: kilo.squat.ai/v1alpha1
+kind: Peer
+metadata:
+  name: travis
+spec:
+  allowedIPs:
+  - 10.4.0.0/16
+  - 10.43.0.0/16
+  publicKey: /24pTYMGdrixanNRyYUITjUFqRhhEYgoyOtuzvcPolo=
+  port: 51820
+  persistentKeepalive: 10
