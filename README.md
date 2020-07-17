@@ -15,6 +15,7 @@ repo/               | GNUU Package repo https://k8s.gnuu.de/repo/ - currently uu
 dashboard/          | Kubernetes-Dashboard https://dashboard.gnuu.de
 uucp/               | UUCP Service Port 540
 mail/               | Mail Service Port 25
+matrix/             | Matrix Chat Community Gateway https://matrix.gnuu.de
 wireguard/          | Wireguard Cluster VPN Service
 
 

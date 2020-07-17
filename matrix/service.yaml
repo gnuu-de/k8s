@@ -1,0 +1,12 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: riot
+spec:
+  selector:
+    app: riot
+  ports:
+    - port: 80
+      targetPort: 80
+

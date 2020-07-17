@@ -1,0 +1,23 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: riot
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    kubernetes.io/ingress.class: "traefik"
+    traefik.frontend.passHostHeader: "true"
+    traefik.backend.loadbalancer.sticky: "true"
+spec:
+  rules:
+  - host: matrix.gnuu.de
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: riot
+          servicePort: 80
+  tls:
+  - hosts:
+    - matrix.gnuu.de
+    secretName: matrix-gnuu-de-cert
