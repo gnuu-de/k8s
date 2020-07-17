@@ -19,6 +19,16 @@ matrix/             | Matrix Chat Community Gateway https://matrix.gnuu.de
 wireguard/          | Wireguard Cluster VPN Service
 
 
+Secret Handling
+---------------
+
+Rename `createsecret.sh.template` to `createsecret.sh`, fill out and apply to the cluster directly after namespace creation. 
+
+* mysql app user credentials
+
+* api key for webhook api
+
+
 Exposed Cluster Services MAIL, NEWS, UUCP:
 ------------------------------------------
 
