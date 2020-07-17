@@ -16,6 +16,7 @@ dashboard/          | Kubernetes-Dashboard https://dashboard.gnuu.de
 uucp/               | UUCP Service Port 540
 mail/               | Mail Service Port 25
 matrix/             | Matrix Chat Community Gateway https://matrix.gnuu.de
+api                 | Webhook Payload Service for Dockerhub https://api.gnuu.de - will restart K8S deployments on new docker builds, see https://github.com/Praisebetoscience/dockerhub-webhook
 wireguard/          | Wireguard Cluster VPN Service
 
 

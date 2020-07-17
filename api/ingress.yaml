@@ -1,0 +1,26 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: gnuu
+  name: api
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    kubernetes.io/ingress.class: "traefik"
+    traefik.frontend.passHostHeader: "true"
+    traefik.backend.loadbalancer.sticky: "true"
+    traefik.ingress.kubernetes.io/frontend-entry-points: http,https
+    traefik.ingress.kubernetes.io/redirect-entry-point: https
+spec:
+  rules:
+  - host: api.gnuu.de
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: api
+          servicePort: 80
+  tls:
+  - hosts:
+    - api.gnuu.de
+    secretName: api-gnuu-de-cert
