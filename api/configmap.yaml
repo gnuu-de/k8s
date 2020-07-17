@@ -9,9 +9,24 @@ data:
     APIKEY = 'secret'
     # Add your script using the name of your repository as the key
     HOOKS = {
-             'busybox': 'kubectl get deployments',
-             'nginx': 'kubectl rollout restart deployment/nginx',
-             'postfix': 'kubectl rollout restart statefulset/mail',
-             'inn': 'kubectl rollout restart statefulset/news',
-             'uucp': 'kubectl rollout restart deployment/uucp'
+             'busybox': 'sh /api/busybox.sh',
+             'nginx': 'sh /api/nginx.sh',
+             'postfix': 'sh /api/postfix.sh',
+             'inn': 'sh /api/inn.sh',
+             'uucp': 'sh /api/uucp.sh'
             }
+  busybox.sh: |
+    curl -d "{\"text\":\"New Deployment: busybox\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/$MATRIX_ROOM"
+    kubectl get deployments
+  nginx.sh: |
+    curl -d "{\"text\":\"New Deployment: nginx\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!beNBLPBpfRRauCnLIy:matrix.org"
+    kubectl rollout restart deployment/nginx
+  postfix.sh: |
+    curl -d "{\"text\":\"New Deployment: postfix\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!beNBLPBpfRRauCnLIy:matrix.org"
+    kubectl rollout restart statefulset/mail
+  inn.sh: |
+    curl -d "{\"text\":\"New Deployment: inn\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!beNBLPBpfRRauCnLIy:matrix.org"
+    kubectl rollout restart statefulset/news
+  uucp.sh: |
+    curl -d "{\"text\":\"New Deployment: uucp\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!beNBLPBpfRRauCnLIy:matrix.org"
+    kubectl rollout restart deployment/uucp

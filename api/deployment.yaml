@@ -42,6 +42,11 @@ spec:
             secretKeyRef:
               name: gnuu-secrets
               key: DOCKERHOOK_TOKEN
+        - name: MATRIX_ROOM
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: MATRIX_ROOM
         volumeMounts:
         - name: gnuu-api
           mountPath: "/api"
