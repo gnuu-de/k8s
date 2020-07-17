@@ -101,6 +101,7 @@ Endpoint = k8s.gnuu.de:51820
 
 * PublicKey - was catched from server
 
+There are also [Windows Client Packages](https://www.wireguard.com/install/) available.
 
 On K3S:
 
