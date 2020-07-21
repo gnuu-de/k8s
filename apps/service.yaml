@@ -9,4 +9,14 @@ spec:
   ports:
     - port: 80
       targetPort: 5000
-
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: adm
+spec:
+  selector:
+    app: adm
+  ports:
+    - port: 80
+      targetPort: 5000
