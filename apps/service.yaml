@@ -2,10 +2,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: app
+  name: usr
 spec:
   selector:
-    app: app
+    app: usr
   ports:
     - port: 80
       targetPort: 5000

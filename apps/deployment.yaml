@@ -3,8 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: app
-  name: app
+    app: usr
+  name: usr
   namespace: gnuu
 spec:
   progressDeadlineSeconds: 600
@@ -12,7 +12,7 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: app
+      app: usr
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -21,14 +21,14 @@ spec:
   template:
     metadata:
       labels:
-        app: app
+        app: usr
       annotations:
         checksum/secrets: gnuu-secrets | sha256sum
     spec:
       containers:
       - image: gnuu/python
         imagePullPolicy: Always
-        name: app
+        name: usr
         ports:
           - containerPort: 5000
         command: ["sh","-c"]
