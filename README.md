@@ -19,6 +19,8 @@ mail/               | Mail Service Port 25
 matrix/             | Matrix Chat Community Gateway https://matrix.gnuu.de (incl. Bot to post webhooks from api service)
 api                 | Webhook Payload Service for Dockerhub https://api.gnuu.de - will restart K8S deployments on new docker builds, see https://github.com/Praisebetoscience/dockerhub-webhook
 wireguard/          | Wireguard Cluster VPN Service
+k3s-clients         | RBAC for cluster user (administrative access with kubectl
+
 
 
 Secret Handling
@@ -29,6 +31,8 @@ Rename `createsecret.sh.template` to `createsecret.sh`, fill out and apply to th
 * mysql app user credentials
 
 * api key for webhook api
+
+
 
 
 Exposed Cluster Services MAIL, NEWS, UUCP:
@@ -50,6 +54,22 @@ kubectl config set-context --current --namespace=gnuu
 
 Matrix Server #gnuu:matrix.org
 ------------------------------
+
+Create Cluster User for kubectl Access
+--------------------------------------
+
+A user `github` will created to access the namespace `gnuu` and
+access rights for PODs and Deployments (review k3s-clients/github.yaml).
+Create this user:
+
+```
+./createuser.sh
+```
+
+Credentials genrated in /opt/k3s-clients/gen/kube/github.kubeconfig
+
+Can be used for Github Actions, Travis Pipelines a.s.o.
+Script can generate more users (adapt username in script and RBAC file)
 
 
 Cluster Access Through WireGuard:
