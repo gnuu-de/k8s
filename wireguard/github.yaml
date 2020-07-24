@@ -1,0 +1,10 @@
+apiVersion: kilo.squat.ai/v1alpha1
+kind: Peer
+metadata:
+  name: github
+spec:
+  allowedIPs:
+  - 10.4.0.8/16
+  publicKey: W2YzbfgmCHA/JJJVpmtQgxBINi6FYiAmAe6OkYEjCwQ=
+  port: 51820
+  persistentKeepalive: 10
