@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    job-name: szip-build
+  name: szip-build
+spec:
+  backoffLimit: 1
+  completions: 1
+  parallelism: 1
+  template:
+    spec:
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsGroup: 1000
+      restartPolicy: Never
+      containers:
+      - image: gnuu/szip-build
+        imagePullPolicy: IfNotPresent
+        name: szip-build
+        command: ["sh","-c"]
+        args: ["cp /home/builduser/szip /repo/html/repo/ && ls -l /repo/html/repo/"]
+        volumeMounts:
+        - mountPath: /repo
+          name: repo
+      volumes:
+      - name: repo
+        persistentVolumeClaim:
+          claimName: repo
+
