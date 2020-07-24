@@ -34,16 +34,30 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /data
+        - name: newslog
+          mountPath: "/newslog"
         - name: workdir
           mountPath: "/work-dir"
         - name: all-news
           mountPath: /etc/news
+      - image: gnuu/busybox
+        imagePullPolicy: Always
+        command: ['sh', '-c']
+        args: ['tail -n+1 -f /newslog/news.fifo']
+        name: newslog
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - name: newslog
+          mountPath: "/newslog"
       initContainers:
       - name: install
         image: gnuu/busybox
-        #command: ['bash', '-x', "ls -la /work-dir"]
         command: ['bash', '-x', "/sidecar/run.sh"]
         volumeMounts:
+        - name: newslog
+          mountPath: "/newslog"
         - name: workdir
           mountPath: "/work-dir"
         - name: news-sidecar
@@ -56,6 +70,8 @@ spec:
       terminationGracePeriodSeconds: 30
       serviceAccountName: gnuu-news
       volumes:
+      - name: newslog
+        emptyDir: {}
       - name: workdir
         emptyDir: {}
       - name: data
