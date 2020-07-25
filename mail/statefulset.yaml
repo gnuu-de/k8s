@@ -70,7 +70,7 @@ spec:
             secretKeyRef:
               name: gnuu-secrets
               key: mysql_password
-      dnsPolicy: ClusterFirst
+      dnsPolicy: ClusterFirstWithHostNet
       hostNetwork: true
       restartPolicy: Always
       schedulerName: default-scheduler
