@@ -60,7 +60,7 @@ spec:
           mountPath: "/newslog"
         - name: workdir
           mountPath: "/work-dir"
-        - name: news-sidecar
+        - name: news-log
           mountPath: /sidecar
       dnsPolicy: ClusterFirst
       hostNetwork: true
@@ -77,9 +77,9 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: data
-      - name: news-sidecar
+      - name: news-log
         configMap:
-          name: news-sidecar
+          name: news-log
       - name: all-news
         projected:
           sources:

@@ -3,20 +3,17 @@ kind: CronJob
 metadata:
   name: send-uucp-300
 spec:
-  schedule: "*/5 * * * *"
+  schedule: "*/1 * * * *"
   jobTemplate:
     spec:
+      completions: 1
       template:
         spec:
           containers:
           - name: send-uucp-300
-            image: gnuu/inn
-            args:
-            - sh
-            - -c
-            - /entrypoint.sh
-            - "&&"
-            - /usr/local/bin/send-uucp-gnuu.300
+            image: gnuu/innuucp
+            command: ["sh","-c"]
+            args: ["/entrypoint.sh && /usr/local/bin/send-uucp-gnuu.300"]
             volumeMounts:
             - mountPath: /data
               name: data
@@ -24,23 +21,9 @@ spec:
               name: workdir
             - mountPath: /etc/news
               name: all-news
-          initContainers:
-          - command:
-            - bash
-            - -x
-            - /sidecar/run.sh
-            image: gnuu/busybox
-            imagePullPolicy: Always
-            name: install
-            resources: {}
-            terminationMessagePath: /dev/termination-log
-            terminationMessagePolicy: File
-            volumeMounts:
-            - mountPath: /work-dir
-              name: workdir
-            - mountPath: /sidecar
-              name: news-sidecar
-          restartPolicy: OnFailure
+            - mountPath: /etc/uucp
+              name: gnuu-uucp
+          restartPolicy: Never
           volumes:
           - emptyDir: {}
             name: workdir
@@ -58,4 +41,7 @@ spec:
               - configMap:
                   name: gnuu-news
               - configMap:
-                  name: news-static
+                  name: news-static-cron
+          - name: gnuu-uucp
+            configMap:
+              name: gnuu-uucp

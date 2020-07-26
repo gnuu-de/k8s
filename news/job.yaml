@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    job-name: news-static
+  name: news-static
+spec:
+  backoffLimit: 1
+  completions: 1
+  parallelism: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - image: gnuu/busybox
+        imagePullPolicy: IfNotPresent
+        name: uucp-build
+        command: ["sh","-c"]
+        args: ["/sidecar/run.sh"]
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - mountPath: /sidecar
+          name: news-sidecar
+      volumes:
+      - configMap:
+          defaultMode: 0755
+          name: news-sidecar
+        name: news-sidecar
+      - name: data
+        persistentVolumeClaim:
+          claimName: data
+      serviceAccountName: gnuu-news
