@@ -16,6 +16,8 @@ spec:
     metadata:
       labels:
         app: news
+      annotations:
+        checksum/configmaps: gnuu-news | sha256sum
     spec:
       containers:
       - image: gnuu/inn
