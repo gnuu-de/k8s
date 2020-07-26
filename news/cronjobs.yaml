@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: send-uucp-300
 spec:
-  schedule: "*/1 * * * *"
+  schedule: "*/5 * * * *"
   jobTemplate:
     spec:
       completions: 1
