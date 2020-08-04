@@ -9,7 +9,8 @@ files/dirs          | description
 ------------------- | -------------------------------------------------
 clusterissuer.yaml  | Let's Encrypt Cluster Issuer for Cert Manager
 namespace.yaml      | Creates Namespace gnuu
-pvc.yaml            | Creates a volume storage, mostly mount on /data
+pvc.yaml            | Creates a volume storage, mostly mount on /data with openebs
+local-path.yaml     | Optional [local-path PVC](https://rancher.com/docs/k3s/latest/en/storage/) instead using openebs
 apps                | Backend Web Services user + admin
 nginx/              | Static web https://k8s.gnuu.de
 repo/               | GNUU Package repo https://k8s.gnuu.de/repo/ - currently uucp package is build with gnuu/uucp-build image and job.yaml to build & store the package in the repo
