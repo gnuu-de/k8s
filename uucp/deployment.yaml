@@ -25,7 +25,7 @@ spec:
         checksum/configmaps: gnuu-uucp | sha256sum
     spec:
       containers:
-      - image: gnuu/uucp
+      - image: gnuu/innuucp
         imagePullPolicy: Always
         name: uucp
         ports:
