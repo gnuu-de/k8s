@@ -20,7 +20,7 @@ spec:
         checksum/configmaps: gnuu-news | sha256sum
     spec:
       containers:
-      - image: gnuu/inn
+      - image: gnuu/innuucp
         imagePullPolicy: Always
         command:
         - /entrypoint.sh
@@ -42,6 +42,8 @@ spec:
           mountPath: "/work-dir"
         - name: all-news
           mountPath: /etc/news
+        - mountPath: /etc/uucp
+          name: gnuu-uucp
       - image: gnuu/busybox
         imagePullPolicy: Always
         command: ['sh', '-c']
@@ -89,3 +91,6 @@ spec:
               name: gnuu-news
           - configMap:
               name: news-static
+      - name: gnuu-uucp
+        configMap:
+          name: gnuu-uucp

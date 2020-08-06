@@ -17,16 +17,12 @@ spec:
             volumeMounts:
             - mountPath: /data
               name: data
-            - mountPath: /work-dir
-              name: workdir
             - mountPath: /etc/news
               name: all-news
             - mountPath: /etc/uucp
               name: gnuu-uucp
           restartPolicy: Never
           volumes:
-          - emptyDir: {}
-            name: workdir
           - name: data
             persistentVolumeClaim:
               claimName: data

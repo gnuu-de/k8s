@@ -13,6 +13,7 @@ data:
              'nginx': 'sh /api/nginx.sh',
              'postfix': 'sh /api/postfix.sh',
              'inn': 'sh /api/inn.sh',
+             'innuucp': 'sh /api/innuucp.sh',
              'uucp': 'sh /api/uucp.sh'
             }
   busybox.sh: |
@@ -26,6 +27,9 @@ data:
     kubectl rollout restart statefulset/mail
   inn.sh: |
     curl -d "{\"text\":\"New Deployment: inn\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!beNBLPBpfRRauCnLIy:matrix.org"
+    kubectl rollout restart statefulset/news
+  innuucp.sh: |
+    curl -d "{\"text\":\"New Deployment: innuucp\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!beNBLPBpfRRauCnLIy:matrix.org"
     kubectl rollout restart statefulset/news
   uucp.sh: |
     curl -d "{\"text\":\"New Deployment: uucp\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!beNBLPBpfRRauCnLIy:matrix.org"
