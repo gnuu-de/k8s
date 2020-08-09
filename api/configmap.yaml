@@ -34,6 +34,7 @@ data:
     kubectl rollout restart statefulset/news
   gnuuaio.sh: |
     curl -d "{\"text\":\"New Deployment: gnuuaio\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!beNBLPBpfRRauCnLIy:matrix.org"
+    kubectl rollout restart statefulset/aio
   uucp.sh: |
     curl -d "{\"text\":\"New Deployment: uucp\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!beNBLPBpfRRauCnLIy:matrix.org"
     kubectl rollout restart deployment/uucp
