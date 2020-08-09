@@ -27,6 +27,8 @@ spec:
       containers:
       - image: gnuu/innuucp
         imagePullPolicy: Always
+        command:
+        - /entrypoint.sh
         name: uucp
         ports:
           - containerPort: 540
