@@ -1,0 +1,153 @@
+apiVersion: v1
+data:
+  newsfeeds: |
+    ME:!*/!local,!collabra-internal::
+    controlchan!\
+        :!*,control,control.*,!control.cancel\
+        :Tc,Wnsm:/usr/lib/news/bin/controlchan
+
+    uucp.gnuu.de/uucp.gnuu.de,lxd.eumel.gnuu.de\
+         :*,!junk,!local.*,!control.*\
+         :Tf,Wnb:uucp.gnuu.de
+  incoming.conf: |
+    streaming:          true 
+    max-connections:    8 
+    peer ME {
+      hostname:         "localhost, 127.0.0.1, ::1"
+    }
+  send-uucp.cf: |
+    uucp.gnuu.de gzip 250000
+  readers.conf: |
+    auth "localhost" {
+        hosts: "localhost, 127.0.0.1, stdin"
+        default: "<localhost>"
+    }
+    access "localhost" {
+        users: "<localhost>"
+        newsgroups: "*"
+        access: RPA
+    }
+  inn.conf: |
+    mta:                    "/usr/sbin/sendmail -oi -oem %s"
+    organization:           "GNUU-User Test News Server"
+    ovmethod:               tradindexed
+    hismethod:              hisv6
+    pathnews:               /usr/lib/news
+    domain:                 6913306960783.gnuu.de
+    mailcmd:                /usr/lib/news/bin/innmail
+    server:                 6913306960783.gnuu.de
+    artcutoff:              10
+    dontrejectfiltered:     false
+    hiscachesize:           512
+    ignorenewsgroups:       false
+    immediatecancel:        false
+    linecountfuzz:          0
+    maxartsize:             5000000
+    maxconnections:         50
+    pgpverify:              true
+    port:                   119
+    refusecybercancels:     false
+    remembertrash:          true
+    verifycancels:          false
+    verifygroups:           false
+    wanttrash:              false
+    wipcheck:               5
+    wipexpire:              10
+    cnfscheckfudgesize:     0
+    enableoverview:         true
+    extraoverviewadvertised: [ ]
+    extraoverviewhidden:    [ ]
+    groupbaseexpiry:        true
+    mergetogroups:          false
+    nfswriter:              false
+    overcachesize:          64
+    storeonxref:            true
+    useoverchan:            false
+    wireformat:             false
+    xrefslave:              false
+    allownewnews:           false
+    articlemmap:            true
+    clienttimeout:          1800
+    initialtimeout:         10
+    msgidcachesize:         16000
+    nfsreader:              false
+    nfsreaderdelay:         60
+    nnrpdcheckart:          true
+    nnrpdflags:             ""
+    nnrpdloadlimit:         16
+    noreader:               false
+    readerswhenstopped:     false
+    readertrack:            false
+    tradindexedmmap:        true
+    keywords:               false
+    keyartlimit:            100000
+    keylimit:               512
+    keymaxwords:            250
+    addnntppostingdate:     true
+    addnntppostinghost:     true
+    checkincludedtext:      false
+    localmaxartsize:        5000000
+    nnrpdauthsender:        false
+    nnrpdpostport:          119
+    spoolfirst:             false
+    strippostcc:            false
+    backoffauth:            false
+    backoffk:               1
+    backoffpostfast:        0
+    backoffpostslow:        1
+    backofftrigger:         10000
+    doinnwatch:             false
+    innwatchbatchspace:     4000
+    innwatchlibspace:       25000
+    innwatchloload:         1000
+    innwatchhiload:         2000
+    innwatchpauseload:      1500
+    innwatchsleeptime:      600
+    innwatchspoolnodes:     200
+    innwatchspoolspace:     25000
+    docnfsstat:             false
+    incominglogfrequency:   200
+    logartsize:             true
+    logcancelcomm:          true
+    logcycles:              7
+    logipaddr:              true
+    logsitename:            true
+    logstatus:              false
+    logtrash:               true
+    nnrpdoverstats:         false
+    nntplinklog:            false
+    status:                 300
+    timer:                  300
+    badiocount:             5
+    blockbackoff:           120
+    chaninacttime:          600
+    chanretrytime:          300
+    datamovethreshold:      8192
+    icdsynccount:           10
+    keepmmappedthreshold:   1024
+    maxforks:               10
+    nicekids:               4
+    nicenewnews:            0
+    nicennrpd:              0
+    pauseretrytime:         300
+    peertimeout:            1200
+    rlimitnofile:           -1
+    patharchive:            /var/spool/news/archive
+    patharticles:           /var/spool/news/articles
+    pathbin:                /usr/lib/news/bin
+    pathcontrol:            /usr/lib/news/bin/control
+    pathdb:                 /var/lib/news
+    pathetc:                /etc/news
+    pathfilter:             /usr/lib/news/bin/filter
+    pathhttp:               /var/log/news
+    pathincoming:           /var/spool/news/incoming
+    pathlog:                /var/log/news
+    pathoutgoing:           /var/spool/news/outgoing
+    pathoverview:           /var/spool/news/overview
+    pathrun:                /var/run/news/
+    pathspool:              /var/spool/news
+    pathtmp:                /var/spool/news/tmp
+kind: ConfigMap
+metadata:
+  name: aio-nntp
+  namespace: gnuu

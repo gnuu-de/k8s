@@ -1,0 +1,12 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: aio
+spec:
+  selector:
+    app: aio
+  ports:
+    - port: 80
+      targetPort: 4200
+  externalIPs:

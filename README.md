@@ -21,6 +21,7 @@ matrix/             | Matrix Chat Community Gateway https://matrix.gnuu.de (incl
 api                 | Webhook Payload Service for Dockerhub https://api.gnuu.de - will restart K8S deployments on new docker builds, see https://github.com/Praisebetoscience/dockerhub-webhook
 wireguard/          | Wireguard Cluster VPN Service
 k3s-clients         | RBAC for cluster user (administrative access with kubectl
+aio                 | UUCP Client for send and receive news/mail (integration test)
 
 
 
@@ -170,4 +171,27 @@ Kubernetes connection from client:
 * replace 127.0.0.1 with the K3S Wireguard Endpoint, e.g. 10.4.0.1
 
 * test connection, `kubectl get ns`
+
+AIO
+---
+
+GNUU All-in-One (gnuuaio)
+
+aio is a client app for send and receive news and e-mails. You
+can use the client for your own:
+
+* replace 6913306960783 with your own site id in aio/configmaps*
+* replace password in configmap-aio-uucp.yml
+* a web service on port 80 appears, extend with Ingress service
+* browse to the Ingress address
+* you will prompt on aio-0:
+* username/password is linux/linux
+* start alpine
+* you can send/receive e-mails to 6913306960783.gnuu.de (or your site)
+* depends on your newsfeed you can subscribe some newsgroups (e.g. de.test)
+* cron will batch and transmit every 5 minutes packages from/to uucp.gnuu.de
+
+Please note: there is no permanent storage attached, all data will be lost
+after restart. If you need permanent data, extend the statefulset with volumes
+(e.g. /var/spool, or /var)
 

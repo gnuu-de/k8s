@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: aio
+  name: aio
+  namespace: gnuu
+spec:
+  serviceName: aio
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: aio
+  template:
+    metadata:
+      labels:
+        app: aio
+    spec:
+      containers:
+      - image: gnuu/gnuuaio
+        imagePullPolicy: Always
+        command: ['sh', '-c']
+        args: ["/entrypoint.sh"]
+        name: aio
+        ports:
+          - containerPort: 4200
+        volumeMounts:
+        - name: aio-uucp
+          mountPath: /etc/uucp
+        - name: aio-smtp
+          mountPath: /etc/postfix-aio
+        - name: aio-nntp
+          mountPath: /etc/news-aio
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: false
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: aio-uucp
+        configMap:
+          name: aio-uucp
+      - name: aio-smtp
+        configMap:
+          name: aio-smtp
+      - name: aio-nntp
+        configMap:
+          name: aio-nntp

@@ -32,6 +32,10 @@ spec:
         backend:
           serviceName: adm
           servicePort: 80
+      - path: /aio/
+        backend:
+          serviceName: aio
+          servicePort: 80
   tls:
   - hosts:
     - k8s.gnuu.de

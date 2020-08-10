@@ -1,0 +1,33 @@
+apiVersion: v1
+data:
+  config: |
+    nodename 6913306960783
+    spool /var/spool/uucp
+    logfile /var/spool/uucp/Log
+    lockdir /var/spool/uucp/Lock
+    statfile /var/spool/uucp/Stats
+    pubdir /var/spool/uucp/6913306960783
+    #debugfile /var/spool/uucp/Debug
+    #debug all
+  call: |
+    uucp.gnuu.de 6913306960783 passwOrt
+  port: |
+    port tcp
+    type tcp
+    protocol t
+  sys: |
+    system uucp.gnuu.de
+    time any
+    called-login 6913306960783
+    call-login *
+    call-password *
+    port tcp
+    protocol t
+    commands rbsmtp rnews rgsmtp rcsmtp rsmtp rssmtp
+    command-path /usr/bin /usr/lib/news/bin
+    remote-send /var/spool/uucp/6913306960783
+    remote-receive /var/spool/uucp/6913306960783
+kind: ConfigMap
+metadata:
+  name: aio-uucp
+  namespace: gnuu

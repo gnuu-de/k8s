@@ -1,0 +1,76 @@
+apiVersion: v1
+data:
+  main.cf: |
+    compatibility_level = 2
+    mail_owner = postfix
+    myhostname = 6913306960783.gnuu.de
+    masquerade_domains = 6913306960783.gnuu.de.local
+    biff = no
+    delay_warning_time = 1h
+    disable_dns_lookups = yes
+    inet_interfaces = localhost
+    inet_protocols = all
+    masquerade_classes = envelope_sender, header_sender, header_recipient
+    masquerade_exceptions = root
+    alias_maps = hash:/etc/aliases
+    alias_database = hash:/etc/aliases
+    mydestination = $myhostname, localhost.$mydomain
+    mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+    mynetworks_style = subnet
+    recipient_delimiter = +
+    transport_maps = hash:/etc/postfix/transport
+    mailbox_size_limit = 0
+    message_size_limit = 0
+    strict_8bitmime = no
+    strict_rfc821_envelopes = no
+    smtpd_helo_required = no
+    smtp_sasl_auth_enable = no
+    smtpd_sasl_auth_enable = no
+    smtp_use_tls = no
+    smtpd_use_tls = no
+  master.cf: |
+    smtp      inet  n       -       n       -       -       smtpd
+    pickup    unix  n       -       y       60      1       pickup
+    cleanup   unix  n       -       y       -       0       cleanup
+    qmgr      unix  n       -       n       300     1       qmgr
+    tlsmgr    unix  -       -       y       1000?   1       tlsmgr
+    rewrite   unix  -       -       y       -       -       trivial-rewrite
+    bounce    unix  -       -       y       -       0       bounce
+    defer     unix  -       -       y       -       0       bounce
+    trace     unix  -       -       y       -       0       bounce
+    verify    unix  -       -       y       -       1       verify
+    flush     unix  n       -       y       1000?   0       flush
+    proxymap  unix  -       -       n       -       -       proxymap
+    proxywrite unix -       -       n       -       1       proxymap
+    smtp      unix  -       -       y       -       -       smtp
+    relay     unix  -       -       y       -       -       smtp
+            -o syslog_name=postfix/$service_name
+    #       -o smtp_helo_timeout=5 -o smtp_connect_timeout=5
+    showq     unix  n       -       y       -       -       showq
+    error     unix  -       -       y       -       -       error
+    retry     unix  -       -       y       -       -       error
+    discard   unix  -       -       y       -       -       discard
+    local     unix  -       n       n       -       -       local
+    virtual   unix  -       n       n       -       -       virtual
+    lmtp      unix  -       -       y       -       -       lmtp
+    anvil     unix  -       -       y       -       1       anvil
+    scache    unix  -       -       y       -       1       scache
+    postlog   unix-dgram n  -       n       -       1       postlogd
+    #
+    uucp      unix  -       n       n       -       -       pipe
+      flags=Fqhu user=uucp argv=uux -r -n -z -a$sender - $nexthop!rmail ($recipient)
+    ifmail    unix  -       n       n       -       -       pipe
+      flags=F user=ftn argv=/usr/lib/ifmail/ifmail -r $nexthop ($recipient)
+    bsmtp     unix  -       n       n       -       -       pipe
+      flags=Fq. user=uucp argv=/usr/sbin/bsmtp -f $sender $nexthop $recipient
+    procmail  unix  -       n       n       -       -       pipe
+      flags=R user=nobody argv=/usr/bin/procmail -t -m /etc/procmailrc ${sender} ${recipient}
+  transport: |
+    6913306960783.gnuu.de           local:
+    *       bsmtp:uucp.gnuu.de
+  virtual: |
+    @6913306960783.gnuu.de	linux
+kind: ConfigMap
+metadata:
+  name: aio-smtp
+  namespace: gnuu
