@@ -13,7 +13,30 @@ metadata:
     traefik.ingress.kubernetes.io/redirect-entry-point: https
 spec:
   rules:
-  - host: k8s.gnuu.de
+  - host: uucp.gnuu.de
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: nginx
+          servicePort: 80
+      - path: /repo
+        backend:
+          serviceName: repo
+          servicePort: 80
+      - path: /cgi-bin/
+        backend:
+          serviceName: usr
+          servicePort: 80
+      - path: /adm/
+        backend:
+          serviceName: adm
+          servicePort: 80
+      - path: /aio/
+        backend:
+          serviceName: aio
+          servicePort: 80
+  - host: www.gnuu.de
     http:
       paths:
       - path: /
@@ -38,5 +61,7 @@ spec:
           servicePort: 80
   tls:
   - hosts:
-    - k8s.gnuu.de
-    secretName: k8s-gnuu-de-cert
+    - uucp.gnuu.de
+    secretName: uucp-gnuu-de-cert
+    - www.gnuu.de
+    secretName: www-gnuu-de-cert
