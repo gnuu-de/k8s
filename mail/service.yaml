@@ -11,5 +11,4 @@ spec:
     - port: 25
       targetPort: 25
   externalIPs:
-    - 10.9.3.171
-
+    - 85.214.128.138
