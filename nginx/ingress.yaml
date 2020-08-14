@@ -62,6 +62,5 @@ spec:
   tls:
   - hosts:
     - uucp.gnuu.de
-    secretName: uucp-gnuu-de-cert
     - www.gnuu.de
     secretName: www-gnuu-de-cert
