@@ -5,6 +5,7 @@ data:
       git clone https://github.com/gnuu-de/serverconfig.git /work-dir
       sed -i "s/\$mysql_host/$(kubectl get service mysql -o jsonpath='{.spec.clusterIP}')/" /work-dir/etc/postfix/relay-mysql.cfg.tpl
       sed -i "s/\$mysql_host/$(kubectl get service mysql -o jsonpath='{.spec.clusterIP}')/" /work-dir/etc/postfix/transport-mysql.cfg.tpl
+      sed -i "s/\$mysql_host/$(kubectl get service mysql -o jsonpath='{.spec.clusterIP}')/" /work-dir/etc/sqlgrey/sqlgrey.conf.tpl
       envsubst < /work-dir/etc/postfix/relay-mysql.cfg.tpl > /work-dir/etc/postfix/relay-mysql.cfg
       envsubst < /work-dir/etc/postfix/transport-mysql.cfg.tpl > /work-dir/etc/postfix/transport-mysql.cfg
       envsubst < /work-dir/etc/sqlgrey/sqlgrey.conf.tpl > /work-dir/etc/sqlgrey/sqlgrey.conf
