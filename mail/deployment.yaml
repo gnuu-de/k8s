@@ -10,11 +10,11 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: mail
+      app: sqlgrey
   template:
     metadata:
       labels:
-        app: mail
+        app: sqlgrey
     spec:
       containers:
       - image: gnuu/postfix
