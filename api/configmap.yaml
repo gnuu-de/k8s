@@ -21,21 +21,21 @@ data:
     curl -d "{\"text\":\"New Deployment: busybox\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/$MATRIX_ROOM"
     kubectl get deployments
   nginx.sh: |
-    curl -d "{\"text\":\"New Deployment: nginx\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!beNBLPBpfRRauCnLIy:matrix.org"
+          curl -d "{\"text\":\"New Deployment: nginx\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!kDLIfARrwAWsoJnDIR:matrix.org"
     kubectl rollout restart deployment/nginx
   postfix.sh: |
-    curl -d "{\"text\":\"New Deployment: postfix\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!beNBLPBpfRRauCnLIy:matrix.org"
+          curl -d "{\"text\":\"New Deployment: postfix\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!kDLIfARrwAWsoJnDIR:matrix.org"
     kubectl rollout restart statefulset/mail
     kubectl rollout restart deployment/sqlgrey
   inn.sh: |
-    curl -d "{\"text\":\"New Deployment: inn\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!beNBLPBpfRRauCnLIy:matrix.org"
+          curl -d "{\"text\":\"New Deployment: inn\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!kDLIfARrwAWsoJnDIR:matrix.org"
     kubectl rollout restart statefulset/news
   innuucp.sh: |
-    curl -d "{\"text\":\"New Deployment: innuucp\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!beNBLPBpfRRauCnLIy:matrix.org"
+          curl -d "{\"text\":\"New Deployment: innuucp\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!kDLIfARrwAWsoJnDIR:matrix.org"
     kubectl rollout restart statefulset/news
   gnuuaio.sh: |
-    curl -d "{\"text\":\"New Deployment: gnuuaio\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!beNBLPBpfRRauCnLIy:matrix.org"
+          curl -d "{\"text\":\"New Deployment: gnuuaio\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!kDLIfARrwAWsoJnDIR:matrix.org"
     kubectl rollout restart statefulset/aio
   uucp.sh: |
-    curl -d "{\"text\":\"New Deployment: uucp\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!beNBLPBpfRRauCnLIy:matrix.org"
+          curl -d "{\"text\":\"New Deployment: uucp\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!kDLIfARrwAWsoJnDIR:matrix.org"
     kubectl rollout restart deployment/uucp
