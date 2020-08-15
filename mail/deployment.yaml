@@ -1,12 +1,12 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   labels:
-    app: mail
-  name: mail
+    app: sqlgrey
+  name: sqlgrey
   namespace: gnuu
 spec:
-  serviceName: mail
+  serviceName: sqlgrey
   replicas: 1
   revisionHistoryLimit: 10
   selector:
@@ -21,19 +21,16 @@ spec:
       - image: gnuu/postfix
         imagePullPolicy: Always
         command:
-        - /postfix.sh
+        - /sqlgrey.sh
         #command: ['sh', '-c']
         #args: ["tail -f /dev/null"]
-        name: mail
+        name: sqlgrey
         ports:
-          - containerPort: 25
-            hostPort: 25
+          - containerPort: 2501
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
-        - name: data
-          mountPath: /data
         - name: workdir
           mountPath: /work-dir
       initContainers:
@@ -46,12 +43,6 @@ spec:
         - name: mail-sidecar
           mountPath: /sidecar
         env:
-        # postfix-mysql is too stupid, set host in sidecar via host command to service
-        # - name: mysql_host
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: gnuu-secrets
-        #       key: mysql_host
         - name: mysql_port
           valueFrom:
             secretKeyRef:
@@ -82,10 +73,6 @@ spec:
       volumes:
       - name: workdir
         emptyDir: {}
-      - name: data
-        persistentVolumeClaim:
-          claimName: data
       - name: mail-sidecar
         configMap:
           name: mail-sidecar
-
