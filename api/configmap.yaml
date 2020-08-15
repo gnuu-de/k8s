@@ -26,6 +26,7 @@ data:
   postfix.sh: |
     curl -d "{\"text\":\"New Deployment: postfix\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!beNBLPBpfRRauCnLIy:matrix.org"
     kubectl rollout restart statefulset/mail
+    kubectl rollout restart deployment/sqlgrey
   inn.sh: |
     curl -d "{\"text\":\"New Deployment: inn\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!beNBLPBpfRRauCnLIy:matrix.org"
     kubectl rollout restart statefulset/news
