@@ -42,7 +42,7 @@ spec:
         command: ['bash', '-x', "/sidecar/run.sh"]
         volumeMounts:
         - name: workdir
-          mountPath: "/work-dir"
+          mountPath: /work-dir
         - name: mail-sidecar
           mountPath: /sidecar
         env:
