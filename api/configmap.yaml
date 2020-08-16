@@ -27,7 +27,7 @@ data:
     kubectl rollout restart deployment/sqlgrey
   innuucp.sh: |
     curl -d "{\"text\":\"New Deployment: innuucp\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!kDLIfARrwAWsoJnDIR:matrix.org"
-    kubectl rollout restart statefulset/news
+    kubectl rollout restart statefulset/newsuucp
   gnuuaio.sh: |
     curl -d "{\"text\":\"New Deployment: gnuuaio\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!kDLIfARrwAWsoJnDIR:matrix.org"
     kubectl rollout restart statefulset/aio
