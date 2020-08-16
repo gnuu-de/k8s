@@ -71,14 +71,24 @@ spec:
       initContainers:
       - name: install
         image: gnuu/busybox
-        command: ['bash', '-x', "/sidecar/run.sh"]
+        command: ['bash', '-x', "/news-log/run.sh"]
         volumeMounts:
         - name: newslog
-          mountPath: "/newslog"
+          mountPath: /newslog
         - name: workdir
-          mountPath: "/work-dir"
+          mountPath: /work-dir
         - name: news-log
-          mountPath: /sidecar
+          mountPath: /news-log
+      - image: gnuu/busybox
+        imagePullPolicy: IfNotPresent
+        name: news-static
+        command: ["sh","-c"]
+        args: ["/sidecar/run.sh"]
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - mountPath: /sidecar
+          name: news-sidecar
       dnsPolicy: ClusterFirst
       hostNetwork: true
       restartPolicy: Always
@@ -135,3 +145,7 @@ spec:
       - name: gnuu-uucp
         configMap:
           name: gnuu-uucp
+      - name: news-sidecar
+        configMap:
+          defaultMode: 0755
+          name: news-sidecar
