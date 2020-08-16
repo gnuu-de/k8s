@@ -39,15 +39,15 @@ spec:
         - name: data
           mountPath: /data
         - name: newslog
-          mountPath: "/newslog"
+          mountPath: /newslog
         - name: workdir
-          mountPath: "/work-dir"
+          mountPath: /work-dir
         - name: all-news
           mountPath: /etc/news
-        - mountPath: /etc/uucp
-          name: gnuu-uucp
+        - name: gnuu-uucp
+          mountPath: /etc/uucp
       - image: gnuu/busybox
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command: ['sh', '-c']
         args: ['tail -n+1 -f /newslog/news.fifo']
         name: newslog
@@ -58,7 +58,7 @@ spec:
         - name: newslog
           mountPath: "/newslog"
       - image: gnuu/busybox
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command: ['sh', '-c']
         args: ['tail -n+1 -f /data/spool/uucp/Log']
         name: uucplog
@@ -70,13 +70,12 @@ spec:
         terminationMessagePolicy: File
       initContainers:
       - name: install
+        imagePullPolicy: IfNotPresent
         image: gnuu/busybox
         command: ['bash', '-x', "/news-log/run.sh"]
         volumeMounts:
         - name: newslog
           mountPath: /newslog
-        - name: workdir
-          mountPath: /work-dir
         - name: news-log
           mountPath: /news-log
       - image: gnuu/busybox
@@ -87,8 +86,8 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /data
-        - mountPath: /sidecar
-          name: news-sidecar
+        - name: news-sidecar
+          mountPath: /sidecar
       dnsPolicy: ClusterFirst
       hostNetwork: true
       restartPolicy: Always
