@@ -12,10 +12,8 @@ data:
              'busybox': 'sh /api/busybox.sh',
              'nginx': 'sh /api/nginx.sh',
              'postfix': 'sh /api/postfix.sh',
-             'inn': 'sh /api/inn.sh',
              'innuucp': 'sh /api/innuucp.sh',
-             'gnuuaio': 'sh /api/gnuuaio.sh',
-             'uucp': 'sh /api/uucp.sh'
+             'gnuuaio': 'sh /api/gnuuaio.sh'
             }
   busybox.sh: |
     curl -d "{\"text\":\"New Deployment: busybox\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/$MATRIX_ROOM"
@@ -27,15 +25,9 @@ data:
     curl -d "{\"text\":\"New Deployment: postfix\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!kDLIfARrwAWsoJnDIR:matrix.org"
     kubectl rollout restart statefulset/mail
     kubectl rollout restart deployment/sqlgrey
-  inn.sh: |
-    curl -d "{\"text\":\"New Deployment: inn\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!kDLIfARrwAWsoJnDIR:matrix.org"
-    kubectl rollout restart statefulset/news
   innuucp.sh: |
     curl -d "{\"text\":\"New Deployment: innuucp\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!kDLIfARrwAWsoJnDIR:matrix.org"
     kubectl rollout restart statefulset/news
   gnuuaio.sh: |
     curl -d "{\"text\":\"New Deployment: gnuuaio\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!kDLIfARrwAWsoJnDIR:matrix.org"
     kubectl rollout restart statefulset/aio
-  uucp.sh: |
-    curl -d "{\"text\":\"New Deployment: uucp\", \"key\": \"$DOCKERHOOK_TOKEN\"}" "http://matrixbot/!kDLIfARrwAWsoJnDIR:matrix.org"
-    kubectl rollout restart deployment/uucp
