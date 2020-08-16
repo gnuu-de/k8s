@@ -41,7 +41,7 @@ spec:
         - name: newslog
           mountPath: /newslog
         - name: postfix-out
-          mountPath: /work-dir
+          mountPath: /work-dir/etc/postfix-out
         - name: all-news
           mountPath: /etc/news
         - name: gnuu-uucp
