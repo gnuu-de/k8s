@@ -14,7 +14,7 @@ spec:
       containers:
       - image: gnuu/busybox
         imagePullPolicy: IfNotPresent
-        name: uucp-build
+        name: news-static
         command: ["sh","-c"]
         args: ["/sidecar/run.sh"]
         volumeMounts:

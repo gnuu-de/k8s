@@ -40,7 +40,7 @@ spec:
           mountPath: /data
         - name: newslog
           mountPath: /newslog
-        - name: workdir
+        - name: postfix-out
           mountPath: /work-dir
         - name: all-news
           mountPath: /etc/news
@@ -78,16 +78,6 @@ spec:
           mountPath: /newslog
         - name: news-log
           mountPath: /news-log
-      - image: gnuu/busybox
-        imagePullPolicy: IfNotPresent
-        name: news-static
-        command: ["sh","-c"]
-        args: ["/sidecar/run.sh"]
-        volumeMounts:
-        - name: data
-          mountPath: /data
-        - name: news-sidecar
-          mountPath: /sidecar
       dnsPolicy: ClusterFirst
       hostNetwork: true
       restartPolicy: Always
@@ -144,7 +134,6 @@ spec:
       - name: gnuu-uucp
         configMap:
           name: gnuu-uucp
-      - name: news-sidecar
+      - name: postfix-out
         configMap:
-          defaultMode: 0755
-          name: news-sidecar
+          name: postfix-out
