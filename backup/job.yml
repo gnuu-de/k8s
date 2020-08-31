@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    job-name: s3backup
+  name: s3backup
+spec:
+  backoffLimit: 1
+  completions: 1
+  parallelism: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - image: gnuu/busybox
+        imagePullPolicy: Always
+        name: s3backup
+        command: ["s3cmd"]
+        args: ["sync","/data","s3://gnuubackup","--delete-removed","-v"]
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: s3cfg
+          readOnly: true
+          mountPath: "/root"
+      volumes:
+      - name: s3cfg
+        secret:
+          secretName: s3cfg
+      - name: data
+        persistentVolumeClaim:
+          claimName: data
