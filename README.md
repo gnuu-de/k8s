@@ -7,6 +7,7 @@ Contents
 
 files/dirs          | description
 ------------------- | -------------------------------------------------
+calico.yaml         | CNI network deployment (replace of flannel)
 clusterissuer.yaml  | Let's Encrypt Cluster Issuer for Cert Manager
 namespace.yaml      | Creates Namespace gnuu
 pvc.yaml            | Creates a volume storage, mostly mount on /data with openebs
