@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  run.sh: |
+    DATE=`date +%s`
+    mysqldump -u$MYSQL_USER -p$MYSQL_PASSWORD -h$MYSQL_HOST -P$MYSQL_PORT $MYSQL_DB > /tmp/backup-$MYSQL_DB-$DATE.sql 
+    s3cmd put /tmp/backup-$MYSQL_DB-$DATE.sql s3://gnuubackup/mysql/
+kind: ConfigMap
+metadata:
+  labels:
+    app: mysql-backup
+  name: mysql-backup
+  namespace: gnuu

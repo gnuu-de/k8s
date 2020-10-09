@@ -1,0 +1,54 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  labels:
+    job-name: mysql-backup
+  name: mysql-backup
+spec:
+  schedule: "0 23 * * 5"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - image: gnuu/busybox
+            imagePullPolicy: IfNotPresent
+            name: mysql-backup
+            command: ["sh","-c"]
+            #args: ["tail -f /dev/null"]
+            args: ["/sidecar/run.sh"]
+            env:
+            - name: MYSQL_USER
+              value: "gnuubackup"
+            - name: MYSQL_DB
+              value: "gnuu"
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: gnuu-secrets
+                  key: mysql_password
+            - name: MYSQL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: gnuu-secrets
+                  key: mysql_host
+            - name: MYSQL_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: gnuu-secrets
+                  key: mysql_port
+            volumeMounts:
+            - name: mysql-backup
+              mountPath: /sidecar
+            - name: s3cfg
+              readOnly: true
+              mountPath: "/root"
+          volumes:
+          - name: s3cfg
+            secret:
+              secretName: s3cfg
+          - configMap:
+              defaultMode: 0755
+              name: mysql-backup
+            name: mysql-backup
