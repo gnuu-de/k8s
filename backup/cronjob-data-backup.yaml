@@ -1,0 +1,38 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  labels:
+    job-name: data-backup
+  name: data-backup
+spec:
+  schedule: "10 23 * * 5"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - image: gnuu/busybox
+            imagePullPolicy: Always
+            name: data-backup
+            command: ["sh","-c"]
+            args: ["/sidecar/run.sh"]
+            volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: data-backup
+              mountPath: /sidecar
+            - name: s3cfg
+              readOnly: true
+              mountPath: "/root"
+          volumes:
+          - name: s3cfg
+            secret:
+              secretName: s3cfg
+          - name: data-backup
+            configMap:
+              defaultMode: 0755
+              name: data-backup
+          - name: data
+            persistentVolumeClaim:
+              claimName: data
