@@ -1,0 +1,12 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: active
+spec:
+  selector:
+    app: active
+  ports:
+    - port: 80
+      targetPort: 8080
+

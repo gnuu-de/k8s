@@ -43,6 +43,10 @@ spec:
         backend:
           serviceName: nginx
           servicePort: 80
+      - path: /config
+        backend:
+          serviceName: active
+          servicePort: 80
       - path: /repo
         backend:
           serviceName: repo
