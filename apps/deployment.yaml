@@ -63,6 +63,26 @@ spec:
             secretKeyRef:
               name: gnuu-secrets
               key: mysql_password
+        - name: twilio_gateway_uri
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: twilio_gateway_uri
+        - name: twilio_identifier
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: twilio_identifier
+        - name: twilio_from
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: twilio_from
+        - name: twilio_to
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: twilio_to
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
