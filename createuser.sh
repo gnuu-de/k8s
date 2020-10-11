@@ -19,12 +19,12 @@
 
 
 ws=/opt/k3s-clients
-day=30
+day=1000
 
 clus_name="default"
 clus_ns="gnuu"
 user="github"
-clus_url="https://10.4.0.1:6443"
+clus_url="https://uucp.gnuu.de:6443"
 ca_path=/var/lib/rancher/k3s/server/tls
 rm -f $ca_path/*-ca.srl
 
