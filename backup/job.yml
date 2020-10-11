@@ -15,8 +15,8 @@ spec:
       - image: gnuu/busybox
         imagePullPolicy: Always
         name: s3backup
-        command: ["s3cmd"]
-        args: ["sync","/data","s3://gnuubackup","--delete-removed","-v"]
+        command: ["sh"]
+        args: ["-c","s3cmd sync /data s3://gnuubackup --delete-removed -v && exit 0"]
         volumeMounts:
         - name: data
           mountPath: /data
