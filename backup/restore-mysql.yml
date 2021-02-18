@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    job-name: s3restoremysql
+  name: s3restoremysql
+spec:
+  backoffLimit: 1
+  completions: 1
+  parallelism: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - image: gnuu/busybox
+        imagePullPolicy: Always
+        name: s3restoremysql
+        command: ["sh"]
+        args: ["-c","s3cmd sync s3://gnuubackup/mysql /mysql/mysqlbackup -v && exit 0"]
+        volumeMounts:
+        - name: mysql
+          mountPath: /mysql
+        - name: s3cfg
+          readOnly: true
+          mountPath: "/root"
+      volumes:
+      - name: s3cfg
+        secret:
+          secretName: s3cfg
+      - name: mysql
+        persistentVolumeClaim:
+          claimName: mysql
