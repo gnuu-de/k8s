@@ -1,5 +1,5 @@
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   namespace: gnuu
@@ -17,52 +17,85 @@ spec:
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName: nginx
-          servicePort: 80
+          service:
+            name: nginx
+            port:
+              number: 80
       - path: /repo
+        pathType: Prefix
         backend:
-          serviceName: repo
-          servicePort: 80
+          service:
+            name: repo
+            port:
+              number: 80
       - path: /cgi-bin/
+        pathType: Prefix
         backend:
-          serviceName: usr
-          servicePort: 80
+          service:
+            name: usr
+            port:
+              number: 80
       - path: /adm/
+        pathType: Prefix
         backend:
-          serviceName: adm
-          servicePort: 80
+          service:
+            name: adm
+            port:
+              number: 80
       - path: /aio/
+        pathType: Prefix
         backend:
-          serviceName: aio
-          servicePort: 80
+          service:
+            name: aio
+            port:
+              number: 80
   - host: www.gnuu.de
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName: nginx
-          servicePort: 80
+          service:
+            name: nginx
+            port:
+              number: 80
       - path: /config
+        pathType: Prefix
         backend:
-          serviceName: active
-          servicePort: 80
+          service:
+            name: active
+            port:
+              number: 80
       - path: /repo
+        pathType: Prefix
         backend:
-          serviceName: repo
-          servicePort: 80
+          service:
+            name: repo
+            port:
+              number: 80
       - path: /cgi-bin/
+        pathType: Prefix
         backend:
-          serviceName: usr
-          servicePort: 80
+          service:
+            name: usr
+            port:
+              number: 80
       - path: /adm/
+        pathType: Prefix
         backend:
-          serviceName: adm
-          servicePort: 80
+          service:
+            name: adm
+            port:
+              number: 80
       - path: /aio/
+        pathType: Prefix
         backend:
-          serviceName: aio
-          servicePort: 80
+          service:
+            name: aio
+            port:
+              number: 80
   tls:
   - hosts:
     - uucp.gnuu.de

@@ -1,5 +1,5 @@
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   namespace: gnuu
@@ -17,13 +17,19 @@ spec:
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName: api
-          servicePort: 80
+          service:
+            name: api
+            port:
+              number: 80
       - path: /matrixbot
+        pathType: Prefix
         backend:
-          serviceName: matrixbot
-          servicePort: 80
+          service:
+            name: matrixbot
+            port:
+              number: 80
   tls:
   - hosts:
     - api.gnuu.de
