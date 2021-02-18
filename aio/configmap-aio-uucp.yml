@@ -30,4 +30,3 @@ data:
 kind: ConfigMap
 metadata:
   name: aio-uucp
-  namespace: gnuu

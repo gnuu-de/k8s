@@ -5,7 +5,6 @@ metadata:
   labels:
     app: usr
   name: usr
-  namespace: gnuu
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -98,7 +97,6 @@ metadata:
   labels:
     app: adm
   name: adm
-  namespace: gnuu
 spec:
   progressDeadlineSeconds: 600
   replicas: 1

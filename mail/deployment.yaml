@@ -4,7 +4,6 @@ metadata:
   labels:
     app: sqlgrey
   name: sqlgrey
-  namespace: gnuu
 spec:
   replicas: 1
   revisionHistoryLimit: 10

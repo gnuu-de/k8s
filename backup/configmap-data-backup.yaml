@@ -7,4 +7,3 @@ metadata:
   labels:
     app: data-backup
   name: data-backup
-  namespace: gnuu

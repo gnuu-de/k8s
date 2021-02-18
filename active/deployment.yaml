@@ -4,7 +4,6 @@ metadata:
   labels:
     app: active
   name: active
-  namespace: gnuu
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
