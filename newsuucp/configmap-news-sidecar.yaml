@@ -54,4 +54,3 @@ metadata:
   labels:
     app: news
   name: news-sidecar
-  namespace: gnuu

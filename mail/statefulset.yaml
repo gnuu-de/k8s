@@ -4,7 +4,6 @@ metadata:
   labels:
     app: mail
   name: mail
-  namespace: gnuu
 spec:
   serviceName: mail
   replicas: 1
@@ -22,8 +21,8 @@ spec:
         imagePullPolicy: Always
         command:
         - /postfix.sh
-        #command: ['sh', '-c']
-        #args: ["tail -f /dev/null"]
+        # command: ['sh', '-c']
+        # args: ["tail -f /dev/null"]
         name: mail
         ports:
           - containerPort: 25
