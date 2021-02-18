@@ -24,4 +24,17 @@ spec:
       storage: 1Gi
   storageClassName: openebs-standalone
   volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  storageClassName: openebs-standalone
+  volumeMode: Filesystem
 

@@ -150,4 +150,3 @@ data:
 kind: ConfigMap
 metadata:
   name: aio-nntp
-  namespace: gnuu

@@ -5,7 +5,6 @@ metadata:
   labels:
     app: api
   name: api
-  namespace: gnuu
 rules:
   - apiGroups: ["apps"]
     resources: ["deployments","statefulsets"]
@@ -17,7 +16,6 @@ metadata:
   labels:
     app: api
   name: api
-  namespace: gnuu
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -25,4 +23,3 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: gnuu-api
-    namespace: gnuu

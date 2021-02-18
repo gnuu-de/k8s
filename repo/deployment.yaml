@@ -4,7 +4,6 @@ metadata:
   labels:
     app: repo
   name: repo
-  namespace: gnuu
 spec:
   progressDeadlineSeconds: 600
   replicas: 1

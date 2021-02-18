@@ -4,7 +4,6 @@ metadata:
   labels:
     app: aio
   name: aio
-  namespace: gnuu
 spec:
   serviceName: aio
   replicas: 1

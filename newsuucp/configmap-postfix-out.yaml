@@ -31,4 +31,3 @@ data:
 kind: ConfigMap
 metadata:
   name: postfix-out
-  namespace: gnuu

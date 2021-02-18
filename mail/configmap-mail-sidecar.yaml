@@ -17,4 +17,3 @@ metadata:
   labels:
     app: mail
   name: mail-sidecar
-  namespace: gnuu

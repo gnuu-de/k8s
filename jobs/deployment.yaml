@@ -4,7 +4,6 @@ metadata:
   labels:
     app: job
   name: job
-  namespace: gnuu
 spec:
   progressDeadlineSeconds: 600
   replicas: 1

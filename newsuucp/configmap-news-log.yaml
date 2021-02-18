@@ -11,4 +11,3 @@ metadata:
   labels:
     app: news
   name: news-log
-  namespace: gnuu

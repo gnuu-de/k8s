@@ -2,7 +2,6 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  namespace: gnuu
   name: api
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt"

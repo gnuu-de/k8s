@@ -9,4 +9,3 @@ metadata:
   labels:
     app: mysql-backup
   name: mysql-backup
-  namespace: gnuu

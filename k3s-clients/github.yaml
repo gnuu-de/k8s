@@ -5,7 +5,6 @@ metadata:
   labels:
     app: k3s-clients
   name: k3s-clients
-  namespace: gnuu
 rules:
   - apiGroups: [""]
     resources: ["pods", "services"]
@@ -20,7 +19,6 @@ metadata:
   labels:
     app: k3s-clients-github
   name: k3s-clients-github
-  namespace: gnuu
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role

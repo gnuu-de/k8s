@@ -4,7 +4,6 @@ metadata:
   labels:
     app: nginx
   name: nginx
-  namespace: gnuu
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
