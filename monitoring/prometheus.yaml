@@ -67,8 +67,6 @@ spec:
     runAsUser: 1000
   serviceAccountName: gnuu-monitoring-prometheus
   serviceMonitorNamespaceSelector:
-    matchLabels:
-      gnuu: enabled
   serviceMonitorSelector: {}
   version: v2.18.2
   volumes:
