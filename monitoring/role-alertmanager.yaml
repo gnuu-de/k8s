@@ -1,0 +1,17 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    app: gnuu-monitoring-alertmanager
+  name: gnuu-monitoring-alertmanager
+  namespace: gnuu
+rules:
+- apiGroups:
+  - policy
+  resourceNames:
+  - rancher-monitoring-alertmanager
+  resources:
+  - podsecuritypolicies
+  verbs:
+  - use

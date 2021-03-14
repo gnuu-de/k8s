@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: gnuu-monitoring
+    app.kubernetes.io/name: grafana
+  name: gnuu-monitoring-grafana
+  namespace: gnuu
+spec:
+  ports:
+  - name: nginx-http
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app.kubernetes.io/instance: gnuu-monitoring
+    app.kubernetes.io/name: grafana
+  sessionAffinity: None
+  type: ClusterIP

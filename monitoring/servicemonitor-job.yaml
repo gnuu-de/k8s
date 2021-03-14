@@ -1,0 +1,20 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: job
+  name: gnuu-monitoring-job
+  namespace: gnuu
+spec:
+  endpoints:
+    - port: http
+      interval: 5s
+      path: /metrics
+  #jobLabel: jobLabel
+  #namespaceSelector:
+  #  matchNames:
+  #  - gnuu
+  selector:
+    matchLabels:
+      app: job
