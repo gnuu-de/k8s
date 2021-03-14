@@ -1,0 +1,17 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/instance: gnuu-monitoring
+    app.kubernetes.io/name: grafana
+  name: gnuu-monitoring-grafana
+  namespace: gnuu
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: gnuu-monitoring-grafana
+subjects:
+- kind: ServiceAccount
+  name: gnuu-monitoring-grafana
+  namespace: gnuu
