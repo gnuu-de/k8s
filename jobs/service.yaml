@@ -3,7 +3,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: job
-  label:
+  labels:
     app: job
 spec:
   selector:
