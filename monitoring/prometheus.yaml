@@ -43,7 +43,9 @@ spec:
   logFormat: logfmt
   logLevel: info
   paused: false
-  podMonitorNamespaceSelector: {}
+  podMonitorNamespaceSelector: 
+    matchLabels:
+      gnuu: monitor
   podMonitorSelector: {}
   portName: nginx-http
   replicas: 1
@@ -57,7 +59,9 @@ spec:
   retention: 10d
   retentionSize: 50GiB
   routePrefix: /
-  ruleNamespaceSelector: {}
+  ruleNamespaceSelector:
+    matchLabels:
+      gnuu: monitor
   ruleSelector: {}
   scrapeInterval: 1m
   securityContext:
@@ -67,6 +71,8 @@ spec:
     runAsUser: 1000
   serviceAccountName: gnuu-monitoring-prometheus
   serviceMonitorNamespaceSelector:
+    matchLabels:
+      gnuu: monitor
   serviceMonitorSelector: {}
   version: v2.18.2
   volumes:
