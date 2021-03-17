@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: gnuu-monitoring-prometheus
+    self-monitor: "true"
+  name: gnuu-monitoring-prometheus
+  namespace: gnuu
+spec:
+  ports:
+  - name: nginx-http
+    port: 9090
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: prometheus
+    prometheus: gnuu-monitoring-prometheus
+  sessionAffinity: None
+  type: ClusterIP

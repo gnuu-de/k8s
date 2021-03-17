@@ -3,10 +3,13 @@ kind: Service
 apiVersion: v1
 metadata:
   name: job
+  labels:
+    app: job
 spec:
   selector:
     app: job
   ports:
-    - port: 80
+    - name: http
+      port: 80
       targetPort: 5000
 

@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: gnuu-monitoring-alertmanager
+    self-monitor: "true"
+  name: gnuu-monitoring-alertmanager
+  namespace: gnuu
+spec:
+  ports:
+  - name: web
+    port: 9093
+    protocol: TCP
+    targetPort: 9093
+  selector:
+    alertmanager: gnuu-monitoring-alertmanager
+    app: alertmanager
+  sessionAffinity: None
+  type: ClusterIP
