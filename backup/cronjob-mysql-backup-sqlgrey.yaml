@@ -2,10 +2,10 @@ apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   labels:
-    job-name: mysql-backup
-  name: mysql-backup
+    job-name: mysql-backup-sqlgrey
+  name: mysql-backup-sqlgrey
 spec:
-  schedule: "0 23 * * 5"
+  schedule: "10 23 * * *"
   jobTemplate:
     spec:
       template:
@@ -14,7 +14,7 @@ spec:
           containers:
           - image: gnuu/busybox
             imagePullPolicy: IfNotPresent
-            name: mysql-backup
+            name: mysql-backup-sqlgrey
             command: ["sh","-c"]
             #args: ["tail -f /dev/null"]
             args: ["/sidecar/run.sh"]
@@ -22,7 +22,7 @@ spec:
             - name: MYSQL_USER
               value: "gnuubackup"
             - name: MYSQL_DB
-              value: "gnuu"
+              value: "sqlgrey"
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
