@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: svclb-traefik
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: svclb-traefik
+  template:
+    metadata:
+      labels:
+        app: svclb-traefik
+    spec:
+      containers:
+      - env:
+        - name: SRC_PORT
+          value: "9000"
+        - name: DEST_PROTO
+          value: TCP
+        - name: DEST_PORT
+          value: "9000"
+        - name: DEST_IP
+          value: 10.43.206.211
+        image: rancher/klipper-lb:v0.2.0
+        imagePullPolicy: IfNotPresent
+        name: lb-port-9000
+        ports:
+        - containerPort: 9000
+          hostPort: 9000
+          name: lb-port-9000
+          protocol: TCP
+        resources: {}
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      - env:
+        - name: SRC_PORT
+          value: "80"
+        - name: DEST_PROTO
+          value: TCP
+        - name: DEST_PORT
+          value: "80"
+        - name: DEST_IP
+          value: 10.43.206.211
+        - name: DEST_IP6
+          value: fd45:a71:55a6:1:2:3000:0:db1
+        image: mtr.external.otc.telekomcloud.com/eumel8/klipper-lb:dual-stack
+        imagePullPolicy: IfNotPresent
+        name: lb-port-80
+        ports:
+        - containerPort: 80
+          hostPort: 80
+          name: lb-port-80
+          protocol: TCP
+        resources: {}
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      - env:
+        - name: SRC_PORT
+          value: "443"
+        - name: DEST_PROTO
+          value: TCP
+        - name: DEST_PORT
+          value: "443"
+        - name: DEST_IP
+          value: 10.43.206.211
+        - name: DEST_IP6
+          value: fd45:a71:55a6:1:2:3000:0:db1
+        image: mtr.external.otc.telekomcloud.com/eumel8/klipper-lb:dual-stack
+        imagePullPolicy: IfNotPresent
+        name: lb-port-443
+        ports:
+        - containerPort: 443
+          hostPort: 443
+          name: lb-port-443
+          protocol: TCP
+        resources: {}
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/master
+        operator: Exists
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+        operator: Exists
+      - key: CriticalAddonsOnly
+        operator: Exists
+  updateStrategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
