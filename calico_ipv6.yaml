@@ -4,6 +4,7 @@
 #ExecStart=/usr/local/bin/k3s \
 #    server \
 #  --no-flannel \
+#  --disable servicelb \
 #  --kube-apiserver-arg service-cluster-ip-range=10.43.0.0/24,fd45:a71:55a6:1:2:3000::/116 \
 #  --kube-apiserver-arg feature-gates="IPv6DualStack=true" \
 #  --kube-controller-manager-arg cluster-cidr=10.42.0.0/23,fd45:a71:55a6:1:2::/64 \
