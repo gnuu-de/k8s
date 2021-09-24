@@ -1,0 +1,58 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: traefik-crd
+  namespace: kube-system
+spec:
+  chart: https://%{KUBERNETES_API}%/static/charts/traefik-crd-9.18.2.tgz
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  chart: https://%{KUBERNETES_API}%/static/charts/traefik-9.18.2.tgz
+  set:
+    global.systemDefaultRegistry: ""
+  valuesContent: |-
+    logs:
+      general:
+        level: DEBUG
+      access:
+        enabled: true
+    rbac:
+      enabled: true
+    service:
+      spec:
+        ipFamilies:
+          - IPv4
+          - IPv6
+        ipFamilyPolicy: RequireDualStack
+    ports:
+      traefik:
+        expose: true
+        image: mtr.external.otc.telekomcloud.com/eumel8/klipper-lb:dual-stack
+      websecure:
+        tls:
+          enabled: true
+        image: mtr.external.otc.telekomcloud.com/eumel8/klipper-lb:dual-stack
+    podAnnotations:
+      prometheus.io/port: "8082"
+      prometheus.io/scrape: "true"
+    providers:
+      kubernetesIngress:
+        publishedService:
+          enabled: true
+    priorityClassName: "system-cluster-critical"
+    image:
+      name: "rancher/library-traefik"
+    tolerations:
+    - key: "CriticalAddonsOnly"
+      operator: "Exists"
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Exists"
+      effect: "NoSchedule"
+    - key: "node-role.kubernetes.io/master"
+      operator: "Exists"
+      effect: "NoSchedule"
