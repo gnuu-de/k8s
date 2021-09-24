@@ -73,7 +73,7 @@ spec:
         - name: DEST_IP
           value: 10.43.206.211
         - name: DEST_IP6
-          value: fd45:a71:55a6:1:2:3000:0:db1
+          value: fd45:a71:55a6:1:2:1:0:db1
         image: mtr.external.otc.telekomcloud.com/eumel8/klipper-lb:dual-stack
         imagePullPolicy: IfNotPresent
         name: lb-port-443
