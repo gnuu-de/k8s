@@ -76,6 +76,15 @@ Credentials genrated in /opt/k3s-clients/gen/kube/github.kubeconfig
 Can be used for Github Actions, Travis Pipelines a.s.o.
 Script can generate more users (adapt username in script and RBAC file)
 
+IPv6 DualStack (Kubernetes 1.21+)
+---------------------------------
+
+Requires start options of k3s in `/etc/systemd/system/k3s.service` described
+in `calico_ipv6.yaml`.
+Deployed Calico from the same manifest
+Deployed Traefik from `traefik.yaml` (to apply in /var/lib/rancher/k3s/server/manifests/`
+Deployed Service Loadbalancer from `svclb-traefik.yaml`
+
 
 Cluster Access Through WireGuard:
 ---------------------------------

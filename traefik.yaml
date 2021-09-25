@@ -18,17 +18,21 @@ spec:
   valuesContent: |-
     logs:
       general:
-        level: DEBUG
+        level: INFO
       access:
         enabled: true
     rbac:
       enabled: true
     service:
+      enabled: true
       spec:
         ipFamilies:
           - IPv4
           - IPv6
         ipFamilyPolicy: RequireDualStack
+      externalIPs:
+        - 85.214.146.19
+        - 2a01:238:4252:8a00:dc49:bec3:60bd:58a
     ports:
       traefik:
         expose: true
