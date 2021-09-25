@@ -12,6 +12,7 @@ clusterissuer.yaml  | Let's Encrypt Cluster Issuer for Cert Manager
 namespace.yaml      | Creates Namespace gnuu
 pvc.yaml            | Creates a volume storage, mostly mount on /data with openebs
 local-path.yaml     | Optional [local-path PVC](https://rancher.com/docs/k3s/latest/en/storage/) instead using openebs
+rancher.yaml        | Value file for Rancher Deployment (optional)
 apps                | Backend Web Services user + admin
 active/             | News config web https://www.gnuu.de/config/
 nginx/              | Static web https://www.gnuu.de

@@ -1,0 +1,9 @@
+hostname: rancher.gnuu.de
+ingress:
+  tls:
+    source: letsEncrypt
+letsEncrypt:
+  email: letsencrypt@admin.gnuu.de
+  ingress:
+    class: traefik
+replicas: 1
