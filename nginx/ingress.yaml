@@ -1,67 +1,100 @@
----
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: gnuu
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt"
-    kubernetes.io/ingress.class: "traefik"
-    traefik.frontend.passHostHeader: "true"
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: traefik
     traefik.backend.loadbalancer.sticky: "true"
+    traefik.frontend.passHostHeader: "true"
     traefik.ingress.kubernetes.io/frontend-entry-points: http,https
     traefik.ingress.kubernetes.io/redirect-entry-point: https
+  name: gnuu
+  namespace: gnuu
 spec:
   rules:
   - host: uucp.gnuu.de
     http:
       paths:
-      - path: /
-        backend:
-          serviceName: nginx
-          servicePort: 80
-      - path: /repo
-        backend:
-          serviceName: repo
-          servicePort: 80
-      - path: /cgi-bin/
-        backend:
-          serviceName: usr
-          servicePort: 80
-      - path: /adm/
-        backend:
-          serviceName: adm
-          servicePort: 80
-      - path: /aio/
-        backend:
-          serviceName: aio
-          servicePort: 80
+      - backend:
+          service:
+            name: nginx
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific
+      - backend:
+          service:
+            name: repo
+            port:
+              number: 80
+        path: /repo
+        pathType: ImplementationSpecific
+      - backend:
+          service:
+            name: usr
+            port:
+              number: 80
+        path: /cgi-bin/
+        pathType: ImplementationSpecific
+      - backend:
+          service:
+            name: adm
+            port:
+              number: 80
+        path: /adm/
+        pathType: ImplementationSpecific
+      - backend:
+          service:
+            name: aio
+            port:
+              number: 80
+        path: /aio/
+        pathType: ImplementationSpecific
   - host: www.gnuu.de
     http:
       paths:
-      - path: /
-        backend:
-          serviceName: nginx
-          servicePort: 80
-      - path: /config
-        backend:
-          serviceName: active
-          servicePort: 80
-      - path: /repo
-        backend:
-          serviceName: repo
-          servicePort: 80
-      - path: /cgi-bin/
-        backend:
-          serviceName: usr
-          servicePort: 80
-      - path: /adm/
-        backend:
-          serviceName: adm
-          servicePort: 80
-      - path: /aio/
-        backend:
-          serviceName: aio
-          servicePort: 80
+      - backend:
+          service:
+            name: nginx
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific
+      - backend:
+          service:
+            name: active
+            port:
+              number: 80
+        path: /config
+        pathType: ImplementationSpecific
+      - backend:
+          service:
+            name: repo
+            port:
+              number: 80
+        path: /repo
+        pathType: ImplementationSpecific
+      - backend:
+          service:
+            name: usr
+            port:
+              number: 80
+        path: /cgi-bin/
+        pathType: ImplementationSpecific
+      - backend:
+          service:
+            name: adm
+            port:
+              number: 80
+        path: /adm/
+        pathType: ImplementationSpecific
+      - backend:
+          service:
+            name: aio
+            port:
+              number: 80
+        path: /aio/
+        pathType: ImplementationSpecific
   tls:
   - hosts:
     - uucp.gnuu.de

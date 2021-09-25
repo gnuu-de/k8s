@@ -1,0 +1,29 @@
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  labels:
+    app: k3s-clients
+  name: k3s-clients
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "pods/log", "services"]
+    verbs: ["create", "get", "update", "list", "delete"]
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["create", "patch", "get", "update", "list", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    app: k3s-clients-gnuuadm
+  name: k3s-clients-gnuuadm
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: k3s-clients
+subjects:
+- name: gnuuadm@default
+  kind: User
+  apiGroup: rbac.authorization.k8s.io

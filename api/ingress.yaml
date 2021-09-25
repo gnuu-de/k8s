@@ -1,28 +1,34 @@
----
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: api
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt"
-    kubernetes.io/ingress.class: "traefik"
-    traefik.frontend.passHostHeader: "true"
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: traefik
     traefik.backend.loadbalancer.sticky: "true"
+    traefik.frontend.passHostHeader: "true"
     traefik.ingress.kubernetes.io/frontend-entry-points: http,https
     traefik.ingress.kubernetes.io/redirect-entry-point: https
+  name: api
+  namespace: gnuu
 spec:
   rules:
   - host: api.gnuu.de
     http:
       paths:
-      - path: /
-        backend:
-          serviceName: api
-          servicePort: 80
-      - path: /matrixbot
-        backend:
-          serviceName: matrixbot
-          servicePort: 80
+      - backend:
+          service:
+            name: api
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific
+      - backend:
+          service:
+            name: matrixbot
+            port:
+              number: 80
+        path: /matrixbot
+        pathType: ImplementationSpecific
   tls:
   - hosts:
     - api.gnuu.de

@@ -1,24 +1,27 @@
----
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: riot
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt"
-    kubernetes.io/ingress.class: "traefik"
-    traefik.frontend.passHostHeader: "true"
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: traefik
     traefik.backend.loadbalancer.sticky: "true"
+    traefik.frontend.passHostHeader: "true"
     traefik.ingress.kubernetes.io/frontend-entry-points: http,https
     traefik.ingress.kubernetes.io/redirect-entry-point: https
+  name: riot
+  namespace: gnuu
 spec:
   rules:
   - host: matrix.gnuu.de
     http:
       paths:
-      - path: /
-        backend:
-          serviceName: riot
-          servicePort: 80
+      - backend:
+          service:
+            name: riot
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific
   tls:
   - hosts:
     - matrix.gnuu.de
