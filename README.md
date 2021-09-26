@@ -80,11 +80,122 @@ Script can generate more users (adapt username in script and RBAC file)
 IPv6 DualStack (Kubernetes 1.21+)
 ---------------------------------
 
-Requires start options of k3s in `/etc/systemd/system/k3s.service` described
-in `calico_ipv6.yaml`.
+Requires start options of k3s in `/etc/systemd/system/k3s.service` described in `calico_ipv6.yaml`.:
+
+```
+ExecStart=/usr/local/bin/k3s \
+    server \
+  --no-flannel \
+  --disable servicelb \
+  --kube-apiserver-arg service-node-port-range=1-65535 \
+  --kube-apiserver-arg service-cluster-ip-range=10.43.0.0/16,fc45:a71:55a6:1:2:1::/116 \
+  --kube-apiserver-arg feature-gates="IPv6DualStack=true" \
+  --kube-controller-manager-arg cluster-cidr=10.42.0.0/24,fc45:a71:55a6:1:2:2::/96 \
+  --kube-controller-manager-arg feature-gates="IPv6DualStack=true" \
+  --kube-controller-manager-arg service-cluster-ip-range=10.43.0.0/16,fc45:a71:55a6:1:2:1::/116 \
+  --kube-controller-manager-arg node-cidr-mask-size-ipv4=24 \
+  --kube-controller-manager-arg node-cidr-mask-size-ipv6=96 \ # 118
+  --kubelet-arg feature-gates="IPv6DualStack=true" \
+  --kube-proxy-arg feature-gates="IPv6DualStack=true" \
+  --kube-proxy-arg cluster-cidr=10.42.0.0/24,fc45:a71:55a6:1:2:2::/96
+```
+
+Reload Daemin and Restart K3S
+
+```
+systemctl daemon-reload
+systemctl restart k3s.service
+```
+Adapat IPv4 and IPv6 pool addresses if changes from k3s start script and ensure IPv6 NAT. 
+
+```
+"ipam": {
+	              "type": "calico-ipam",
+	              "assign_ipv4": "true",
+	              "assign_ipv6": "true",
+	              "nat-outgoing": "false",
+	              "ipv4_pools": ["10.42.0.0/24"],
+	              "ipv6_pools": ["fd45:a71:55a6:1:2:2::/96"]
+	          },
+---
+- name: CALICO_IPV4POOL_CIDR
+	              value: "10.42.0.0/24"
+	            - name: CALICO_IPV6POOL_CIDR
+	              value: "fd45:a71:55a6:1:2:2::/96"
+---
+- name: CALICO_IPV6POOL_NAT_OUTGOING
+	              value: "true"
+         
+...
+- name: FELIX_IPV6SUPPORT
+	              value: "true"
+```
+
 Deployed Calico from the same manifest
-Deployed Traefik from `traefik.yaml` (to apply in /var/lib/rancher/k3s/server/manifests/`
-Deployed Service Loadbalancer from `svclb-traefik.yaml`
+
+```
+kubectl apply -f calico_ipv6.yaml
+```
+
+Check Calico Controller and Node agent PODs are running
+
+```
+# kubectl -n kube-system get pods | grep cali
+calico-node-twxmf                          1/1     Running     0          34m
+calico-kube-controllers-74b8fbdb46-slhxn   1/1     Running     0          34m
+```
+
+Check IP Pools
+
+```
+# kubectl get ippools.crd.projectcalico.org
+NAME                  AGE
+default-ipv4-ippool   39m
+default-ipv6-ippool   39m
+```
+
+Check IPv4 and IPv6 address assigned to PODs:
+
+```
+bash-5.0# ifconfig eth0
+eth0      Link encap:Ethernet  HWaddr 72:51:2B:80:AE:E4
+          inet addr:10.42.0.194  Bcast:10.42.0.194  Mask:255.255.255.255
+          inet6 addr: fd45:a71:55a6:1:2:3000:0:f01/128 Scope:Global
+          inet6 addr: fe80::7051:2bff:fe80:aee4/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1440  Metric:1
+          RX packets:25 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:25 errors:0 dropped:1 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:2674 (2.6 KiB)  TX bytes:2590 (2.5 KiB)
+
+```
+
+Check connectivity 
+
+```
+bash-5.0# ping ipv4.google.com
+PING ipv4.google.com (172.217.19.78): 56 data bytes
+64 bytes from 172.217.19.78: seq=0 ttl=58 time=10.722 ms
+64 bytes from 172.217.19.78: seq=1 ttl=58 time=10.592 ms
+
+bash-5.0# ping ipv6.google.com
+PING ipv6.google.com (2a00:1450:4016:80a::200e): 56 data bytes
+64 bytes from 2a00:1450:4016:80a::200e: seq=0 ttl=118 time=21.472 ms
+64 bytes from 2a00:1450:4016:80a::200e: seq=1 ttl=118 time=21.450 ms
+
+```
+
+Deployed Traefik from `traefik.yaml` (to apply in /var/lib/rancher/k3s/server/manifests/`) Helm Operator will automatically pickup and deploy a new version of Traefik Helm Chart. Important is the option `ipFamilyPolicy: RequireDualStack`. If the public ServiceIP stays in state `Pending` add the node ip-addresses as here.
+
+
+Deployed Service Loadbalancer from `svclb-traefik.yaml` This DaemonSet use a special version of klipper-lb, which allows to configure IPv6 services and prevent duplicate configured HostPorts (for IPv4 and IPv6).
+
+
+TLS Option on Traefik v2 Ingress
+--------------------------------
+
+To provide a more secure SSL service on Traefik Ingress there is a default TLSOption deployed from `nginx/tlsoption.yaml`.
+Description of the feature here: https://doc.traefik.io/traefik/v2.2/https/tls/#tls-options
 
 
 Cluster Access Through WireGuard:
