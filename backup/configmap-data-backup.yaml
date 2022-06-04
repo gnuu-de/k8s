@@ -1,7 +1,7 @@
 apiVersion: v1
 data:
   run.sh: |
-    s3cmd -v --delete-removed --no-check-md5 sync /data s3://gnuubackup && exit 0
+    s3cmd -v --delete-removed --no-check-md5 --exclude=data/spool/news/* sync /data s3://gnuubackup && exit 0
 kind: ConfigMap
 metadata:
   labels:
