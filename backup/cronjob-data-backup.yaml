@@ -35,4 +35,4 @@ spec:
               name: data-backup
           - name: data
             persistentVolumeClaim:
-              claimName: data
+              claimName: data2
