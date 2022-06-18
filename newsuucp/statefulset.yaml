@@ -39,12 +39,12 @@ spec:
           mountPath: /data
         - name: newslog
           mountPath: /newslog
-        - name: postfix-out
-          mountPath: /work-dir/etc/postfix-out
         - name: all-news
           mountPath: /etc/news
         - name: gnuu-uucp
           mountPath: /etc/uucp
+        - name: workdir
+          mountPath: /work-dir
       - image: gnuu/busybox
         imagePullPolicy: IfNotPresent
         command: ['sh', '-c']
@@ -148,7 +148,7 @@ spec:
         emptyDir: {}
       - name: data
         persistentVolumeClaim:
-          claimName: data
+          claimName: data2
       - name: news-log
         configMap:
           name: news-log
@@ -162,9 +162,6 @@ spec:
       - name: gnuu-uucp
         configMap:
           name: gnuu-uucp
-      - name: postfix-out
-        configMap:
-          name: postfix-out
       - name: mail-out-sidecar
         configMap:
           name: mail-out-sidecar
