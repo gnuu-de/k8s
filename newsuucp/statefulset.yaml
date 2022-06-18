@@ -96,6 +96,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: gnuu-secrets
+              key: mysql_password
       - name: installlog
         imagePullPolicy: IfNotPresent
         image: gnuu/busybox
