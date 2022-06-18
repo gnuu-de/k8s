@@ -68,7 +68,35 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
       initContainers:
-      - name: install
+      - name: installmailout
+        image: gnuu/busybox
+        command: ['bash', '-x', "/sidecar/run.sh"]
+        volumeMounts:
+        - name: workdir
+          mountPath: /work-dir
+        - name: mail-out-sidecar
+          mountPath: /sidecar
+        env:
+        - name: mysql_port
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_port
+        - name: mysql_db
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_db
+        - name: mysql_user
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+              key: mysql_user
+        - name: mysql_password
+          valueFrom:
+            secretKeyRef:
+              name: gnuu-secrets
+      - name: installlog
         imagePullPolicy: IfNotPresent
         image: gnuu/busybox
         command: ['bash', '-x', "/news-log/run.sh"]
@@ -136,3 +164,6 @@ spec:
       - name: postfix-out
         configMap:
           name: postfix-out
+      - name: mail-out-sidecar
+        configMap:
+          name: mail-out-sidecar
