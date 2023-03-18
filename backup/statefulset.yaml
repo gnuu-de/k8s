@@ -19,62 +19,6 @@ spec:
       containers:
       - image: gnuu/busybox
         imagePullPolicy: IfNotPresent
-        env:
-          - name: AWS_ACCESS_KEY_ID
-            valueFrom:
-               secretKeyRef:
-                 name: mysql-backup
-                 key: aws_access_key_id
-          - name: AWS_SECRET_ACCESS_KEY
-            valueFrom:
-               secretKeyRef:
-                 name: mysql-backup
-                 key: aws_secret_access_key
-          - name: AWS_S3_ENDPOINT
-            valueFrom:
-               secretKeyRef:
-                 name: mysql-backup
-                 key: aws_s3_endpoint
-          - name: AWS_DEFAULT_REGION
-            valueFrom:
-               secretKeyRef:
-                 name: mysql-backup
-                 key: aws_default_region
-          - name: AWS_BUCKET_NAME
-            valueFrom:
-               secretKeyRef:
-                 name: mysql-backup
-                 key: aws_bucket_name
-          - name: AWS_BUCKET_BACKUP_PATH
-            valueFrom:
-               secretKeyRef:
-                 name: mysql-backup
-                 key: aws_bucket_backup_path
-          - name: TARGET_DATABASE_HOST
-            valueFrom:
-               secretKeyRef:
-                 name: mysql-backup
-                 key: database_host
-          - name: TARGET_DATABASE_PORT
-            valueFrom:
-               secretKeyRef:
-                 name: mysql-backup
-                 key: database_port
-          - name: TARGET_DATABASE_NAMES
-            valueFrom:
-               secretKeyRef:
-                 name: mysql-backup
-                 key: database_names
-          - name: TARGET_DATABASE_USER
-            valueFrom:
-               secretKeyRef:
-                 name: mysql-backup
-                 key: database_user
-          - name: TARGET_DATABASE_PASSWORD
-            valueFrom:
-               secretKeyRef:
-                 name: mysql-backup
-                 key: database_password
         command: ['sh', '-c']
         args: ["tail -f /dev/null"]
         name: gnuuadm
@@ -84,6 +28,9 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /data
+        - name: s3cfg
+          readOnly: true
+          mountPath: "/root"
       dnsPolicy: ClusterFirstWithHostNet
       hostNetwork: true
       restartPolicy: Always
@@ -94,4 +41,6 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: data
-
+      - name: s3cfg
+        secret:
+          secretName: s3cfg

@@ -83,7 +83,7 @@ spec:
         emptyDir: {}
       - name: data
         persistentVolumeClaim:
-          claimName: data
+          claimName: data2
       - name: mail-sidecar
         configMap:
           name: mail-sidecar
