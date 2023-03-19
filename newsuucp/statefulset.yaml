@@ -20,6 +20,13 @@ spec:
     spec:
       containers:
       - image: ghcr.io/gnuu-de/innuucp:2.0.0
+        env:
+        - name: COSIGNPUBKEY
+          value: |
+              -----BEGIN PUBLIC KEY-----
+              MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEwT2gClqDPu3VvFfrE56EkW68NXj9
+              Ct5SsvcPZC3yL5+6fa/Ox7isJdsvxf9rRmGKp8slnyN2/aWKIleY3Ut4Hw==
+              -----END PUBLIC KEY-----
         imagePullPolicy: Always
         command:
         - /entrypoint.sh
@@ -46,6 +53,13 @@ spec:
         - name: workdir
           mountPath: /work-dir
       - image: ghcr.io/gnuu-de/busybox:2.0.0
+        env:
+        - name: COSIGNPUBKEY
+          value: |
+              -----BEGIN PUBLIC KEY-----
+              MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEwT2gClqDPu3VvFfrE56EkW68NXj9
+              Ct5SsvcPZC3yL5+6fa/Ox7isJdsvxf9rRmGKp8slnyN2/aWKIleY3Ut4Hw==
+              -----END PUBLIC KEY-----
         imagePullPolicy: IfNotPresent
         command: ['sh', '-c']
         args: ['tail -n+1 -f /newslog/news.fifo']
@@ -57,6 +71,13 @@ spec:
         - name: newslog
           mountPath: "/newslog"
       - image: ghcr.io/gnuu-de/busybox:2.0.0
+        env:
+        - name: COSIGNPUBKEY
+          value: |
+              -----BEGIN PUBLIC KEY-----
+              MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEwT2gClqDPu3VvFfrE56EkW68NXj9
+              Ct5SsvcPZC3yL5+6fa/Ox7isJdsvxf9rRmGKp8slnyN2/aWKIleY3Ut4Hw==
+              -----END PUBLIC KEY-----
         imagePullPolicy: IfNotPresent
         command: ['sh', '-c']
         args: ['tail -n+1 -f /data/spool/uucp/Log']
@@ -70,6 +91,13 @@ spec:
       initContainers:
       - name: installmailout
         image: ghcr.io/gnuu-de/busybox:2.0.0
+        env:
+        - name: COSIGNPUBKEY
+          value: |
+              -----BEGIN PUBLIC KEY-----
+              MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEwT2gClqDPu3VvFfrE56EkW68NXj9
+              Ct5SsvcPZC3yL5+6fa/Ox7isJdsvxf9rRmGKp8slnyN2/aWKIleY3Ut4Hw==
+              -----END PUBLIC KEY-----
         command: ['bash', '-x', "/sidecar/run.sh"]
         volumeMounts:
         - name: workdir
@@ -100,6 +128,13 @@ spec:
       - name: installlog
         imagePullPolicy: IfNotPresent
         image: ghcr.io/gnuu-de/busybox:2.0.0
+        env:
+        - name: COSIGNPUBKEY
+          value: |
+              -----BEGIN PUBLIC KEY-----
+              MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEwT2gClqDPu3VvFfrE56EkW68NXj9
+              Ct5SsvcPZC3yL5+6fa/Ox7isJdsvxf9rRmGKp8slnyN2/aWKIleY3Ut4Hw==
+              -----END PUBLIC KEY-----
         command: ['bash', '-x', "/news-log/run.sh"]
         volumeMounts:
         - name: newslog
