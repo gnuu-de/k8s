@@ -22,8 +22,15 @@ spec:
         app: repo
     spec:
       containers:
-      - image: gnuu/nginx
+      - image: ghcr.io/gnuu-de/nginx:2.0.0
         imagePullPolicy: Always
+        env:
+        - name: COSIGNPUBKEY
+          value: |
+              -----BEGIN PUBLIC KEY-----
+              MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEwT2gClqDPu3VvFfrE56EkW68NXj9
+              Ct5SsvcPZC3yL5+6fa/Ox7isJdsvxf9rRmGKp8slnyN2/aWKIleY3Ut4Hw==
+              -----END PUBLIC KEY-----
         name: repo
         ports:
           - containerPort: 8080
@@ -37,7 +44,7 @@ spec:
       volumes:
       - name: repo
         persistentVolumeClaim:
-          claimName: repo
+          claimName: repo2
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler

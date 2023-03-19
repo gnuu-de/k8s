@@ -22,7 +22,14 @@ spec:
         app: active
     spec:
       containers:
-      - image: gnuu/nginx
+      - image: ghcr.io/gnuu-de/nginx:2.0.0
+        env:
+        - name: COSIGNPUBKEY
+          value: |
+              -----BEGIN PUBLIC KEY-----
+              MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEwT2gClqDPu3VvFfrE56EkW68NXj9
+              Ct5SsvcPZC3yL5+6fa/Ox7isJdsvxf9rRmGKp8slnyN2/aWKIleY3Ut4Hw==
+              -----END PUBLIC KEY-----
         imagePullPolicy: Always
         name: active
         ports:
@@ -38,7 +45,14 @@ spec:
           mountPath: /usr/share/nginx/html
       initContainers:
       - name: install
-        image: gnuu/busybox
+        image: ghcr.io/gnuu-de/busybox:2.0.0
+        env:
+        - name: COSIGNPUBKEY
+          value: |
+              -----BEGIN PUBLIC KEY-----
+              MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEwT2gClqDPu3VvFfrE56EkW68NXj9
+              Ct5SsvcPZC3yL5+6fa/Ox7isJdsvxf9rRmGKp8slnyN2/aWKIleY3Ut4Hw==
+              -----END PUBLIC KEY-----
         command:
         - ln 
         - -s
@@ -61,4 +75,4 @@ spec:
         emptyDir: {}
       - name: data
         persistentVolumeClaim:
-          claimName: data
+          claimName: data2
