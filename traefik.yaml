@@ -4,7 +4,7 @@ metadata:
   name: traefik-crd
   namespace: kube-system
 spec:
-  chart: https://%{KUBERNETES_API}%/static/charts/traefik-crd-9.18.2.tgz
+  chart: https://%{KUBERNETES_API}%/static/charts/traefik-crd-19.0.400.tgz
 ---
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
@@ -12,7 +12,7 @@ metadata:
   name: traefik
   namespace: kube-system
 spec:
-  chart: https://%{KUBERNETES_API}%/static/charts/traefik-9.18.2.tgz
+  chart: https://%{KUBERNETES_API}%/static/charts/traefik-19.0.400.tgz
   set:
     global.systemDefaultRegistry: ""
   valuesContent: |-
@@ -36,11 +36,11 @@ spec:
     ports:
       traefik:
         expose: true
-        image: mtr.external.otc.telekomcloud.com/eumel8/klipper-lb:dual-stack
+        image: mtr.devops.telekom.de/rancher/klipper-lb:v0.4.0
       websecure:
         tls:
           enabled: true
-        image: mtr.external.otc.telekomcloud.com/eumel8/klipper-lb:dual-stack
+        image: mtr.devops.telekom.de/rancher/klipper-lb:v0.4.0
     podAnnotations:
       prometheus.io/port: "8082"
       prometheus.io/scrape: "true"
@@ -50,7 +50,8 @@ spec:
           enabled: true
     priorityClassName: "system-cluster-critical"
     image:
-      name: "rancher/library-traefik"
+      name: "mtr.devops.telekom.de/rancher/mirrored-library-traefik"
+      tag: 2.9.4
     tolerations:
     - key: "CriticalAddonsOnly"
       operator: "Exists"

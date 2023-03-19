@@ -12,7 +12,7 @@ spec:
         spec:
           restartPolicy: Never
           containers:
-          - image: gnuu/busybox
+          - image: ghcr.io/gnuu-de/busybox:2.0.0
             imagePullPolicy: IfNotPresent
             name: mysql-backup-sqlgrey
             command: ["sh","-c"]

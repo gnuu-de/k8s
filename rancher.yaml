@@ -7,3 +7,4 @@ letsEncrypt:
   ingress:
     class: traefik
 replicas: 1
+priorityClassName: system-cluster-critical

@@ -22,7 +22,7 @@ spec:
         app: nginx
     spec:
       containers:
-      - image: gnuu/nginx
+      - image: ghcr.io/gnuu-de/nginx:2.0.0
         imagePullPolicy: Always
         name: nginx
         ports:
@@ -35,7 +35,7 @@ spec:
           mountPath: /usr/share/nginx
       initContainers:
       - name: install
-        image: gnuu/busybox
+        image: ghcr.io/gnuu-de/busybox:2.0.0
         command:
         - git
         - clone

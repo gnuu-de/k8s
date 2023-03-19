@@ -22,7 +22,7 @@ spec:
         app: repo
     spec:
       containers:
-      - image: gnuu/nginx
+      - image: ghcr.io/gnuu-de/nginx:2.0.0
         imagePullPolicy: Always
         name: repo
         ports:
@@ -37,7 +37,7 @@ spec:
       volumes:
       - name: repo
         persistentVolumeClaim:
-          claimName: repo
+          claimName: repo2
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler

@@ -19,7 +19,7 @@ spec:
         checksum/configmaps: gnuu-news | sha256sum
     spec:
       containers:
-      - image: gnuu/innuucp
+      - image: ghcr.io/gnuu-de/innuucp:2.0.0
         imagePullPolicy: Always
         command:
         - /entrypoint.sh
@@ -45,7 +45,7 @@ spec:
           mountPath: /etc/uucp
         - name: workdir
           mountPath: /work-dir
-      - image: gnuu/busybox
+      - image: ghcr.io/gnuu-de/busybox:2.0.0
         imagePullPolicy: IfNotPresent
         command: ['sh', '-c']
         args: ['tail -n+1 -f /newslog/news.fifo']
@@ -56,7 +56,7 @@ spec:
         volumeMounts:
         - name: newslog
           mountPath: "/newslog"
-      - image: gnuu/busybox
+      - image: ghcr.io/gnuu-de/busybox:2.0.0
         imagePullPolicy: IfNotPresent
         command: ['sh', '-c']
         args: ['tail -n+1 -f /data/spool/uucp/Log']
@@ -69,7 +69,7 @@ spec:
         terminationMessagePolicy: File
       initContainers:
       - name: installmailout
-        image: gnuu/busybox
+        image: ghcr.io/gnuu-de/busybox:2.0.0
         command: ['bash', '-x', "/sidecar/run.sh"]
         volumeMounts:
         - name: workdir
@@ -99,7 +99,7 @@ spec:
               key: mysql_password
       - name: installlog
         imagePullPolicy: IfNotPresent
-        image: gnuu/busybox
+        image: ghcr.io/gnuu-de/busybox:2.0.0
         command: ['bash', '-x', "/news-log/run.sh"]
         volumeMounts:
         - name: newslog

@@ -12,7 +12,7 @@ spec:
         spec:
           restartPolicy: Never
           containers:
-          - image: gnuu/busybox
+          - image: ghcr.io/gnuu-de/busybox:2.0.0
             imagePullPolicy: Always
             name: data-backup
             command: ["sh","-c"]

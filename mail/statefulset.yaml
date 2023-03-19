@@ -17,7 +17,7 @@ spec:
         app: mail
     spec:
       containers:
-      - image: gnuu/postfix
+      - image: ghcr.io/gnuu-de/postfix:2.0.0
         imagePullPolicy: Always
         command:
         - /postfix.sh
@@ -37,7 +37,7 @@ spec:
           mountPath: /work-dir
       initContainers:
       - name: install
-        image: gnuu/busybox
+        image: ghcr.io/gnuu-de/busybox:2.0.0
         command: ['bash', '-x', "/sidecar/run.sh"]
         volumeMounts:
         - name: workdir
