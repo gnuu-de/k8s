@@ -7,14 +7,10 @@
 #  --disable servicelb \
 #  --kube-apiserver-arg service-node-port-range=1-65535 \
 #  --kube-apiserver-arg service-cluster-ip-range=10.43.0.0/16,fc10:a71:55a6:1:2:1::/116 \
-#  --kube-apiserver-arg feature-gates="IPv6DualStack=true" \
 #  --kube-controller-manager-arg cluster-cidr=10.42.0.0/24,fc10:a71:55a6:1:2:2::/96 \
-#  --kube-controller-manager-arg feature-gates="IPv6DualStack=true" \
 #  --kube-controller-manager-arg service-cluster-ip-range=10.43.0.0/16,fc10:a71:55a6:1:2:1::/116 \
 #  --kube-controller-manager-arg node-cidr-mask-size-ipv4=24 \
 #  --kube-controller-manager-arg node-cidr-mask-size-ipv6=96 \ # 118
-#  --kubelet-arg feature-gates="IPv6DualStack=true" \
-#  --kube-proxy-arg feature-gates="IPv6DualStack=true" \
 #  --kube-proxy-arg cluster-cidr=10.42.0.0/24,fc10:a71:55a6:1:2:1::/116
 ---
 # Source: https://github.com/projectcalico/calico/blob/release-v3.25/manifests/calico.yaml
