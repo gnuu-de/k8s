@@ -8,7 +8,7 @@ metadata:
     traefik.frontend.passHostHeader: "true"
     traefik.ingress.kubernetes.io/frontend-entry-points: http,https
     traefik.ingress.kubernetes.io/redirect-entry-point: https
-    traefik.ingress.kubernetes.io/router.middlewares: gnuu-gnuu@kubernetescrd
+    #traefik.ingress.kubernetes.io/router.middlewares: gnuu-gnuu@kubernetescrd
   name: gnuu
   namespace: gnuu
 spec:
