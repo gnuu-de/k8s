@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       #- image: vectorim/riot-web:v1.7.1
-      - image: ghcr.io/gnuu-de/element-web:v1.11.25
+      - image: ghcr.io/gnuu-de/element-web:v1.12.35
         env:
         - name: COSIGNPUBKEY
           value: |
