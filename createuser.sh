@@ -23,7 +23,7 @@ day=1000
 
 clus_name="default"
 clus_ns="gnuu"
-user="github"
+user="gnuuadm"
 clus_url="https://uucp.gnuu.de:6443"
 ca_path=/var/lib/rancher/k3s/server/tls
 rm -f $ca_path/*-ca.srl
