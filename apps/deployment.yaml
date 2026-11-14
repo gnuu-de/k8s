@@ -25,7 +25,7 @@ spec:
         checksum/secrets: gnuu-secrets | sha256sum
     spec:
       containers:
-      - image: ghcr.io/gnuu-de/python:2.0.0
+      - image: ghcr.io/gnuu-de/python:3.0.2
         imagePullPolicy: Always
         name: usr
         ports:
@@ -117,7 +117,7 @@ spec:
         checksum/secrets: gnuu-secrets | sha256sum
     spec:
       containers:
-      - image: ghcr.io/gnuu-de/python:2.0.0
+      - image: ghcr.io/gnuu-de/python:3.0.2
         imagePullPolicy: Always
         name: adm
         ports:
