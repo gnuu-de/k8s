@@ -22,7 +22,7 @@ spec:
         app: active
     spec:
       containers:
-      - image: ghcr.io/gnuu-de/nginx:3.0.0
+      - image: ghcr.io/gnuu-de/nginx:3.0.2
         env:
         - name: COSIGNPUBKEY
           value: |
@@ -32,16 +32,6 @@ spec:
               -----END PUBLIC KEY-----
         imagePullPolicy: Always
         name: active
-        # Workaround: nginx:1.28 uses "pid /run/nginx.pid", which is not writable
-        # for USER 101. Run nginx with a copy of the config that writes the pid
-        # to /tmp. Remove once the image contains the Dockerfile.nginx fix.
-        command:
-        - /bin/sh
-        - -c
-        args:
-        - |
-          sed 's#/run/nginx.pid#/tmp/nginx.pid#' /etc/nginx/nginx.conf > /tmp/nginx.conf
-          exec /docker-entrypoint.sh nginx -c /tmp/nginx.conf -g 'daemon off;'
         ports:
           - containerPort: 8080
         resources: {}
@@ -55,7 +45,7 @@ spec:
           mountPath: /usr/share/nginx/html
       initContainers:
       - name: install
-        image: ghcr.io/gnuu-de/busybox:3.0.0
+        image: ghcr.io/gnuu-de/busybox:3.0.2
         env:
         - name: COSIGNPUBKEY
           value: |
