@@ -22,7 +22,7 @@ spec:
         app: nginx
     spec:
       containers:
-      - image: ghcr.io/gnuu-de/nginx:2.0.0
+      - image: ghcr.io/gnuu-de/nginx:3.0.0
         imagePullPolicy: Always
         env:
         - name: COSIGNPUBKEY
@@ -32,6 +32,16 @@ spec:
               Ct5SsvcPZC3yL5+6fa/Ox7isJdsvxf9rRmGKp8slnyN2/aWKIleY3Ut4Hw==
               -----END PUBLIC KEY-----
         name: nginx
+        # Workaround: nginx:1.28 uses "pid /run/nginx.pid", which is not writable
+        # for USER 101. Run nginx with a copy of the config that writes the pid
+        # to /tmp. Remove once the image contains the Dockerfile.nginx fix.
+        command:
+        - /bin/sh
+        - -c
+        args:
+        - |
+          sed 's#/run/nginx.pid#/tmp/nginx.pid#' /etc/nginx/nginx.conf > /tmp/nginx.conf
+          exec /docker-entrypoint.sh nginx -c /tmp/nginx.conf -g 'daemon off;'
         ports:
           - containerPort: 8080
         resources: {}
@@ -42,7 +52,7 @@ spec:
           mountPath: /usr/share/nginx
       initContainers:
       - name: install
-        image: ghcr.io/gnuu-de/busybox:2.0.0
+        image: ghcr.io/gnuu-de/busybox:3.0.0
         env:
         - name: COSIGNPUBKEY
           value: |
@@ -58,11 +68,10 @@ spec:
         volumeMounts:
         - name: workdir
           mountPath: "/work-dir"
-      dnsPolicy: Default
+      dnsPolicy: ClusterFirst
       volumes:
       - name: workdir
         emptyDir: {}
-      dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
