@@ -1,7 +1,36 @@
 apiVersion: v1
 data:
   run.sh: |
-    s3cmd -v --delete-removed --no-check-md5 --exclude="data/spool/news/*" sync /data s3://gnuubackup && exit 0
+    #!/bin/sh
+    set -u
+
+    max_attempts=3
+    attempt=1
+    wait_seconds=60
+
+    while [ "$attempt" -le "$max_attempts" ]; do
+      echo "$(date -u '+%Y-%m-%dT%H:%M:%SZ') data-backup: attempt $attempt/$max_attempts"
+
+      s3cmd -v --delete-removed --no-check-md5 --exclude="data/spool/news/*" sync /data s3://gnuubackup
+      rc=$?
+
+      if [ "$rc" -eq 0 ]; then
+        echo "$(date -u '+%Y-%m-%dT%H:%M:%SZ') data-backup: completed successfully"
+        exit 0
+      fi
+
+      echo "$(date -u '+%Y-%m-%dT%H:%M:%SZ') data-backup: attempt $attempt failed with exit code $rc" >&2
+      attempt=$((attempt + 1))
+
+      if [ "$attempt" -le "$max_attempts" ]; then
+        echo "$(date -u '+%Y-%m-%dT%H:%M:%SZ') data-backup: retrying in ${wait_seconds}s"
+        sleep "$wait_seconds"
+        wait_seconds=$((wait_seconds * 2))
+      fi
+    done
+
+    echo "$(date -u '+%Y-%m-%dT%H:%M:%SZ') data-backup: all $max_attempts attempts failed" >&2
+    exit 1
 kind: ConfigMap
 metadata:
   labels:

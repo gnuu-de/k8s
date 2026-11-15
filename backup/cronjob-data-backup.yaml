@@ -6,8 +6,14 @@ metadata:
   name: data-backup
 spec:
   schedule: "10 23 * * 5"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
+      backoffLimit: 3
+      activeDeadlineSeconds: 86400
+      ttlSecondsAfterFinished: 604800
       template:
         spec:
           restartPolicy: Never
