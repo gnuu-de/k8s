@@ -4,7 +4,7 @@ data:
     if [ ! -d "/newslog/news.fifo" ]; then
       mkdir /newslog
       mkfifo /newslog/news.fifo
-      chown 101:102 /newslog/news.fifo
+      chown 100:101 /newslog/news.fifo
     fi
 kind: ConfigMap
 metadata:

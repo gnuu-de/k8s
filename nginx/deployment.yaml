@@ -22,7 +22,7 @@ spec:
         app: nginx
     spec:
       containers:
-      - image: ghcr.io/gnuu-de/nginx:2.0.0
+      - image: ghcr.io/gnuu-de/nginx:3.0.2
         imagePullPolicy: Always
         env:
         - name: COSIGNPUBKEY
@@ -42,7 +42,7 @@ spec:
           mountPath: /usr/share/nginx
       initContainers:
       - name: install
-        image: ghcr.io/gnuu-de/busybox:2.0.0
+        image: ghcr.io/gnuu-de/busybox:3.0.2
         env:
         - name: COSIGNPUBKEY
           value: |
@@ -58,11 +58,10 @@ spec:
         volumeMounts:
         - name: workdir
           mountPath: "/work-dir"
-      dnsPolicy: Default
+      dnsPolicy: ClusterFirst
       volumes:
       - name: workdir
         emptyDir: {}
-      dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}

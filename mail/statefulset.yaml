@@ -17,7 +17,7 @@ spec:
         app: mail
     spec:
       containers:
-      - image: ghcr.io/gnuu-de/postfix:2.0.0
+      - image: ghcr.io/gnuu-de/postfix:3.0.4
         env:
         - name: COSIGNPUBKEY
           value: |
@@ -44,7 +44,7 @@ spec:
           mountPath: /work-dir
       initContainers:
       - name: install
-        image: ghcr.io/gnuu-de/busybox:2.0.0
+        image: ghcr.io/gnuu-de/busybox:3.0.4
         env:
         - name: COSIGNPUBKEY
           value: |

@@ -19,7 +19,7 @@ spec:
         checksum/configmaps: gnuu-news | sha256sum
     spec:
       containers:
-      - image: ghcr.io/gnuu-de/innuucp:2.0.0
+      - image: ghcr.io/gnuu-de/innuucp:3.0.7
         env:
         - name: COSIGNPUBKEY
           value: |
@@ -52,7 +52,7 @@ spec:
           mountPath: /etc/uucp
         - name: workdir
           mountPath: /work-dir
-      - image: ghcr.io/gnuu-de/busybox:2.0.0
+      - image: ghcr.io/gnuu-de/busybox:3.0.7
         env:
         - name: COSIGNPUBKEY
           value: |
@@ -70,7 +70,7 @@ spec:
         volumeMounts:
         - name: newslog
           mountPath: "/newslog"
-      - image: ghcr.io/gnuu-de/busybox:2.0.0
+      - image: ghcr.io/gnuu-de/busybox:3.0.7
         env:
         - name: COSIGNPUBKEY
           value: |
@@ -90,7 +90,7 @@ spec:
         terminationMessagePolicy: File
       initContainers:
       - name: installmailout
-        image: ghcr.io/gnuu-de/busybox:2.0.0
+        image: ghcr.io/gnuu-de/busybox:3.0.7
         env:
         - name: COSIGNPUBKEY
           value: |
@@ -127,7 +127,7 @@ spec:
               key: mysql_password
       - name: installlog
         imagePullPolicy: IfNotPresent
-        image: ghcr.io/gnuu-de/busybox:2.0.0
+        image: ghcr.io/gnuu-de/busybox:3.0.7
         env:
         - name: COSIGNPUBKEY
           value: |
@@ -141,34 +141,6 @@ spec:
           mountPath: /newslog
         - name: news-log
           mountPath: /news-log
-      dnsPolicy: ClusterFirst
-      hostNetwork: true
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
-      serviceAccountName: gnuu-news
-      volumes:
-      - name: newslog
-        emptyDir: {}
-      - name: workdir
-        emptyDir: {}
-      - name: data
-        persistentVolumeClaim:
-          claimName: data
-      - name: news-log
-        configMap:
-          name: news-log
-      - name: all-news
-        projected:
-          sources:
-          - configMap:
-              name: gnuu-news
-          - configMap:
-              name: news-static
-      - name: gnuu-uucp
-        configMap:
-          name: gnuu-uucp
       dnsPolicy: ClusterFirst
       hostNetwork: true
       restartPolicy: Always

@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       #- image: vectorim/riot-web:v1.7.1
-      - image: ghcr.io/gnuu-de/element-web:v1.11.25
+      - image: ghcr.io/gnuu-de/element-web:v1.12.35
         env:
         - name: COSIGNPUBKEY
           value: |
@@ -69,14 +69,7 @@ spec:
         checksum/secrets: gnuu-secrets | sha256sum
     spec:
       containers:
-      - image: ghcr.io/gnuu-de/python:2.0.0
-        env:
-        - name: COSIGNPUBKEY
-          value: |
-              -----BEGIN PUBLIC KEY-----
-              MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEwT2gClqDPu3VvFfrE56EkW68NXj9
-              Ct5SsvcPZC3yL5+6fa/Ox7isJdsvxf9rRmGKp8slnyN2/aWKIleY3Ut4Hw==
-              -----END PUBLIC KEY-----
+      - image: ghcr.io/gnuu-de/python:3.0.2
         imagePullPolicy: Always
         name: matrixbot
         ports:
@@ -84,6 +77,12 @@ spec:
         command: ["sh","-c"]
         args: ["git clone https://github.com/gnuu-de/matrix-webhook.git && cd matrix-webhook && python3 matrix_webhook.py"]
         env:
+        - name: COSIGNPUBKEY
+          value: |
+              -----BEGIN PUBLIC KEY-----
+              MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEwT2gClqDPu3VvFfrE56EkW68NXj9
+              Ct5SsvcPZC3yL5+6fa/Ox7isJdsvxf9rRmGKp8slnyN2/aWKIleY3Ut4Hw==
+              -----END PUBLIC KEY-----
         - name: PYTHONUNBUFFERED
           value: "1"
         - name: APP
