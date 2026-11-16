@@ -19,7 +19,7 @@ spec:
         checksum/configmaps: gnuu-news | sha256sum
     spec:
       containers:
-      - image: ghcr.io/gnuu-de/innuucp:3.0.7
+      - image: ghcr.io/gnuu-de/innuucp:3.0.9
         env:
         - name: COSIGNPUBKEY
           value: |
@@ -52,7 +52,7 @@ spec:
           mountPath: /etc/uucp
         - name: workdir
           mountPath: /work-dir
-      - image: ghcr.io/gnuu-de/busybox:3.0.7
+      - image: ghcr.io/gnuu-de/busybox:3.0.8
         env:
         - name: COSIGNPUBKEY
           value: |
@@ -70,7 +70,7 @@ spec:
         volumeMounts:
         - name: newslog
           mountPath: "/newslog"
-      - image: ghcr.io/gnuu-de/busybox:3.0.7
+      - image: ghcr.io/gnuu-de/busybox:3.0.8
         env:
         - name: COSIGNPUBKEY
           value: |
@@ -90,7 +90,7 @@ spec:
         terminationMessagePolicy: File
       initContainers:
       - name: installmailout
-        image: ghcr.io/gnuu-de/busybox:3.0.7
+        image: ghcr.io/gnuu-de/busybox:3.0.8
         env:
         - name: COSIGNPUBKEY
           value: |
@@ -127,7 +127,7 @@ spec:
               key: mysql_password
       - name: installlog
         imagePullPolicy: IfNotPresent
-        image: ghcr.io/gnuu-de/busybox:3.0.7
+        image: ghcr.io/gnuu-de/busybox:3.0.8
         env:
         - name: COSIGNPUBKEY
           value: |
